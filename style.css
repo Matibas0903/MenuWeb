@@ -1,0 +1,128 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-image: url("Resources/background.png");
+    background-size: cover;
+    background-repeat: repeat-y;
+    background-position: center;
+       
+}
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;         
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 0;
+}
+
+.logo{
+    width: 320px;
+    height: auto;
+    justify-content: center;
+    animation: neonPulse 0.5s ease-in-out infinite alternate;
+}
+
+
+
+.login-card {
+    width: 400px;  
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.home-card{
+    max-width: 400px;
+    margin: auto;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    
+
+}
+
+.logo-admin {
+    max-width: 170px;
+    margin: 5px auto;
+    display: block;
+     animation: neonPulse 0.5s ease-in-out infinite alternate;
+}
+
+
+/* Efecto de Neon*/
+@keyframes neonPulse {
+    from {
+        filter:
+            drop-shadow(0 0 3px #F3699D)
+            drop-shadow(0 0 8px #F3699D)
+            drop-shadow(0 0 3px #62E1FE)
+        
+    }
+    to {
+        filter:
+            drop-shadow(0 0 5px #F3699D)
+            drop-shadow(0 0 8px #F3699D)
+            drop-shadow(0 0 5px #62E1FE)
+         
+    }
+}
+
+.home-btn{
+    
+    padding: 18px 50px;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: #62E1FE;
+    border: 3px solid #F3699D;
+    border-radius: 40px;
+
+    animation: neonPulse 0.5s ease-in-out infinite alternate;
+
+}
+
+.btn-form{
+    
+    padding: 18px 50px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: #62E1FE;
+    border: 2px solid #F3699D;
+    border-radius: 40px;
+
+    animation: neonPulse 0.5s ease-in-out infinite alternate;
+
+}
+
+.mini-btn-form{
+    
+    padding: 10px 25px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: #62E1FE;
+    border: 2px solid #F3699D;
+    border-radius: 40px;
+
+    animation: neonPulse 0.5s ease-in-out infinite alternate;
+
+}
+
+.container {
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+
+}
+
+.modal-content {
+    background-color: #1e1e1e;
+    color: #fff;
+    border: 1px solid #333;
+}
