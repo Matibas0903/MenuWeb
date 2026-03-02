@@ -8,7 +8,7 @@ const guardarPromo = document.getElementById("guardarPromo");
 
 guardarProducto.addEventListener("click", enviarProducto);
 guardarCategoria.addEventListener("click", enviarCategoria);
-guardarPromo.addEventListener("clicl", enviarPromo);
+guardarPromo.addEventListener("click", enviarPromo);
 
 })
 
@@ -42,8 +42,14 @@ async function enviarProducto(e) {
 
     if(data.status === "error"){
         mostrarErrores("form-producto", data);
-    }
+    }else{
     console.log("producto agregado");
+    const form = document.getElementById("form-producto");
+    form.reset();
+
+    form.querySelectorAll(".form-control, .form-select").forEach((input) => {
+    input.classList.remove("is-invalid", "is-valid");
+  });}
 
 }
 
@@ -72,8 +78,8 @@ function mostrarErrores(formId, data) {
   }
 
   // marcar válidos
-  form.querySelectorAll(".form-control, .form-select").forEach((input) => {
-    if (!input.classList.contains("is-invalid")) {
+ form.querySelectorAll(".form-control, .form-select").forEach((input) => {
+    if (!data.errors[input.id]) {
       input.classList.add("is-valid");
     }
   });
@@ -97,12 +103,36 @@ async function enviarCategoria(e) {
     else{
     console.log("categoria agregada");
     cargarCategorias()
-      form.querySelectorAll(".form-control, .form-select").forEach((input) => {
+ 
+    const form = document.getElementById("form-categoria");
+    form.reset();
+
+    form.querySelectorAll(".form-control, .form-select").forEach((input) => {
     input.classList.remove("is-invalid", "is-valid");
   });}
 }
 
 
 async function enviarPromo(e) {
-    
+     e.preventDefault();
+    const FormPromo = new FormData(document.getElementById("form-promo"));
+
+    const response = await fetch("validarPromo.php", {
+
+        method: "POST",
+        body: FormPromo,
+    } )
+    const data = await response.json();
+
+    if(data.status === "error"){
+        mostrarErrores("form-promo", data);
+    } else {
+  console.log("promo agregada");
+  const form = document.getElementById("form-promo");
+    form.reset();
+
+    form.querySelectorAll(".form-control, .form-select").forEach((input) => {
+    input.classList.remove("is-invalid", "is-valid");
+  });
+}
 }

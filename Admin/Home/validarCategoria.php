@@ -20,6 +20,7 @@ try {
             ]);
             exit;
         }
+        $nombre = ucfirst(trim($nombre));
         $sql = "SELECT NOMBRE_CATEGORIA FROM categoria where NOMBRE_CATEGORIA = :nombre";
         $stmtNombre = $conn->prepare($sql);
         $stmtNombre->bindParam(":nombre", $nombre);

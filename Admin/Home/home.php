@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 if (!isset($_SESSION["idUsuario"])) {
     header("Location: ../Login/login.php");
@@ -160,20 +161,20 @@ if (!isset($_SESSION["idUsuario"])) {
                                             <div class="mb-3">
                                                 <label class="form-label">Nombre de promo</label>
                                                 <input type="text" id="nombrePromo" name="nombrePromo" class="form-control">
-                                                <div class="invalid-feedback" id="error-"></div>
+                                                <div class="invalid-feedback" id="error-nombrePromo"></div>
                                             </div>
 
 
                                             <div class="mb-3">
                                                 <label class="form-label">Precio</label>
                                                 <input type="number" id="precioPromo" name="precioPromo" class="form-control">
-                                                <div class="invalid-feedback" id="error-"></div>
+                                                <div class="invalid-feedback" id="error-precioPromo"></div>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label class="form-label">Imagen de promo</label>
                                                 <input type="file" id="imagenPromo" name="imagenPromo" class="form-control">
-                                                <div class="invalid-feedback" id="error-"></div>
+                                                <div class="invalid-feedback" id="error-imagenPromo"></div>
                                             </div>
 
                                             <button id="guardarPromo" class="btn btn-form w-100">

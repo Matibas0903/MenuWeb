@@ -30,7 +30,6 @@ try {
         }
         if ($existeNombre) {
             $errores["nombre"] = "Ya hay un producto con ese nombre";
-            exit;
         }
         if (empty($categoria) || $categoria === "") {
             $errores["categoria"] = "Categoria invalida";
@@ -46,13 +45,13 @@ try {
         if (!$existeCategoria) {
             $errores["categoria"] = "Categoria invalida";
         }
-        if ($precio < 0 && empty($precio) && !is_numeric($precio)) {
+        if ($precio < 0 || empty($precio) && !is_numeric($precio)) {
             $errores["precio"] = "Precio invalido";
         }
 
-        if (!$imagen || $imagen["error"] !== 0) {
+        if ($imagen["error"] !== 0) {
             $errores["imagen"] = "Debe seleccionar una imagen valida";
-        } else {
+        } else if ($imagen) {
             $tmp = $imagen["tmp_name"];
 
             // nombre unico
@@ -62,16 +61,11 @@ try {
             $carpetaDestino = __DIR__ . "/../../Resources/img_productos/";
 
             $rutaFinal = $carpetaDestino . $nombreArchivo;
-
-            // mover archivo
-            if (!move_uploaded_file($tmp, $rutaFinal)) {
-                $errores["imagen"] = "Error al guardar la imagen";
-            }
         }
 
         if (empty($errores)) {
             $sql = "INSERT INTO PRODUCTO(ID_CATEGORIA, NOMBRE, PRECIO, IMAGEN_URL) VALUES (:id_categoria, :nombre, :precio, :imagenURL)";
-            $stmtCategoria = $conn->prepare($sql);
+            $stmtInsert = $conn->prepare($sql);
 
             $stmtInsert->bindParam(":id_categoria", $categoria, PDO::PARAM_INT);
             $stmtInsert->bindParam(":nombre", $nombre);
@@ -79,6 +73,16 @@ try {
             $stmtInsert->bindParam(":imagenURL", $rutaFinal);
 
             $stmtInsert->execute();
+
+            // mover archivo
+            if (!move_uploaded_file($tmp, $rutaFinal)) {
+                $errores["imagen"] = "Error al guardar la imagen";
+                echo json_encode([
+                    "status" => "error",
+                    "errors" => $errores
+                ]);
+                exit;
+            }
 
             //encode
             echo  json_encode(["status" => "ok"]);
