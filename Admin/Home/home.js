@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", () =>{
 
-cargarCategorias();
+const selectCategoria = document.getElementById("categoria");
+const selectCategoriaPromo = document.getElementById("categoriaPromo");
+cargarSubCategorias();
+
+cargarCategorias(selectCategoria);
+cargarCategorias(selectCategoriaPromo);
 
 const guardarProducto = document.getElementById("guardarProducto");
 const guardarCategoria = document.getElementById("guardarCategoria");
@@ -12,9 +17,9 @@ guardarPromo.addEventListener("click", enviarPromo);
 
 })
 
-async function cargarCategorias() {
+async function cargarCategorias(selectCategoria) {
 
-const selectCategoria = document.getElementById("categoria")
+
 selectCategoria.innerHTML = `<option value="">Seleccione una categoria...</option>`;
 const response = await fetch("cargarCategorias.php");
 const data = await response.json();
@@ -39,8 +44,8 @@ const data = await response.json();
 data.forEach(subCategoria => {
 
     const option = document.createElement("option");
-    option.value = categoria.ID_SUBCATEGORIA;
-    option.textContent = categoria.NOMBRE_SUBCATEGORIA;
+    option.value = subCategoria.ID_SUBCATEGORIA;
+    option.textContent = subCategoria.NOMBRE_SUBCATEGORIA;
     selectSubCategoria.appendChild(option);
 });
 
@@ -119,7 +124,7 @@ async function enviarCategoria(e) {
     }
     else{
     console.log("categoria agregada");
-    cargarCategorias()
+    cargarSubCategorias()
  
     const form = document.getElementById("form-categoria");
     form.reset();

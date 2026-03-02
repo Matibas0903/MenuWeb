@@ -49,18 +49,25 @@ try {
             $errores["precio"] = "Precio invalido";
         }
 
-        if ($imagen["error"] !== 0) {
-            $errores["imagen"] = "Debe seleccionar una imagen valida";
-        } else if ($imagen) {
-            $tmp = $imagen["tmp_name"];
 
-            // nombre unico
-            $nombreArchivo = time() . "_" . basename($imagen["name"]);
+        $rutaFinal = null; // por defecto sin imagen
 
-            // carpeta destino absoluta (xampp)
-            $carpetaDestino = __DIR__ . "/../../Resources/img_productos/";
+        if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] !== UPLOAD_ERR_NO_FILE) {
 
-            $rutaFinal = $carpetaDestino . $nombreArchivo;
+            if ($_FILES["imagen"]["error"] !== 0) {
+                $errores["imagen"] = "Error al subir la imagen";
+            } else {
+
+                $imagen = $_FILES["imagen"];
+                $tmp = $imagen["tmp_name"];
+
+                // nombre unico
+                $nombreArchivo = time() . "_" . basename($imagen["name"]);
+
+                // carpeta destino
+                $carpetaDestino = __DIR__ . "/../../Resources/img_productos/";
+                $rutaFinal = $carpetaDestino . $nombreArchivo;
+            }
         }
 
         if (empty($errores)) {
@@ -75,13 +82,15 @@ try {
             $stmtInsert->execute();
 
             // mover archivo
-            if (!move_uploaded_file($tmp, $rutaFinal)) {
-                $errores["imagen"] = "Error al guardar la imagen";
-                echo json_encode([
-                    "status" => "error",
-                    "errors" => $errores
-                ]);
-                exit;
+            if ($rutaFinal !== null) {
+                if (!move_uploaded_file($tmp, $rutaFinal)) {
+                    $errores["imagen"] = "Error al guardar la imagen";
+                    echo json_encode([
+                        "status" => "error",
+                        "errors" => $errores
+                    ]);
+                    exit;
+                }
             }
 
             //encode

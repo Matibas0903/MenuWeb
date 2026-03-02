@@ -148,7 +148,7 @@ if (!isset($_SESSION["idUsuario"])) {
                                             </div>
 
                                             <button id="guardarCategoria" class="btn btn-form w-100">
-                                                Guardar categoria
+                                                Guardar Sub-categoria
                                             </button>
 
                                         </form>

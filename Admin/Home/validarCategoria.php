@@ -13,6 +13,9 @@ try {
         $nombre = $_POST["nombreSubCategoria"] ?? null;
         $categoria = $_POST["categoria"] ?? null;
 
+        if (empty($categoria) || $categoria === "") {
+            $error["categoria"] = "Categoria invalida";
+        }
         if (empty($nombre)) {
             $error["nombreSubCategoria"] = "El nombre esta vacio";
             echo json_encode([
@@ -22,9 +25,7 @@ try {
             exit;
         }
 
-        if (empty($categoria) || $categoria === "") {
-            $errores["categoria"] = "Categoria invalida";
-        }
+
 
         $sql = "SELECT ID_CATEGORIA  FROM categoria where ID_CATEGORIA = :id";
         $stmtCategoria = $conn->prepare($sql);
@@ -34,7 +35,7 @@ try {
         $existeCategoria = $stmtCategoria->fetch(PDO::FETCH_ASSOC);
 
         if (!$existeCategoria) {
-            $errores["categoria"] = "Categoria invalida";
+            $error["categoria"] = "Categoria invalida";
         }
 
 
@@ -50,9 +51,10 @@ try {
             $error["nombreSubCategoria"] = "esa subcategoria ya existe";
         } else {
 
-            $sql = "INSERT INTO subcategoria (NOMBRE_SUBCATEGORIA) Values (:nombre)";
+            $sql = "INSERT INTO subcategoria (ID_CATEGORIA, NOMBRE_SUBCATEGORIA) Values (:idCategoria, :nombre)";
             $stmtInsert = $conn->prepare($sql);
             $stmtInsert->bindParam(":nombre", $nombre);
+            $stmtInsert->bindParam(":idCategoria", $categoria, PDO::PARAM_INT);
             $stmtInsert->execute();
 
             echo json_encode(["status" => "ok"]);
