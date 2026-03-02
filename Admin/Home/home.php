@@ -93,11 +93,11 @@ if (!isset($_SESSION["idUsuario"])) {
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="categoria" class="form-label">Categoría</label>
-                                        <select id="categoria" name="categoria" class="form-select">
-                                            <option>Seleccione una categoria...</option>
+                                        <label for="subCategoria" class="form-label">Sub-Categoría</label>
+                                        <select id="subCategoria" name="subCategoria" class="form-select">
+                                            <option>Seleccione una sub-categoria...</option>
                                         </select>
-                                        <div class="invalid-feedback" id="error-categoria"></div>
+                                        <div class="invalid-feedback" id="error-subCategoria"></div>
                                     </div>
 
                                     <div class="mb-3">
@@ -129,14 +129,22 @@ if (!isset($_SESSION["idUsuario"])) {
                                 <div class="card home-card">
                                     <div class="card-body">
 
-                                        <h5 class="mb-3">Agregar Categoría</h5>
+                                        <h5 class="mb-3">Agregar Sub Categoría</h5>
 
                                         <form id="form-categoria">
 
                                             <div class="mb-3">
+                                                <label for="categoria" class="form-label">Categoría</label>
+                                                <select id="categoria" name="categoria" class="form-select">
+                                                    <option>Seleccione una categoria...</option>
+                                                </select>
+                                                <div class="invalid-feedback" id="error-categoria"></div>
+                                            </div>
+
+                                            <div class="mb-3">
                                                 <label class="form-label">Nombre</label>
-                                                <input type="text" id="nombreCategoria" name="nombreCategoria" class="form-control">
-                                                <div class="invalid-feedback" id="error-nombreCategoria"></div>
+                                                <input type="text" id="nombreSubCategoria" name="nombreSubCategoria" class="form-control">
+                                                <div class="invalid-feedback" id="error-nombreSubCategoria"></div>
                                             </div>
 
                                             <button id="guardarCategoria" class="btn btn-form w-100">
@@ -164,6 +172,13 @@ if (!isset($_SESSION["idUsuario"])) {
                                                 <div class="invalid-feedback" id="error-nombrePromo"></div>
                                             </div>
 
+                                            <div class="mb-3">
+                                                <label for="categoriaPromo" class="form-label">Categoría</label>
+                                                <select id="categoriaPromo" name="categoriaPromo" class="form-select">
+                                                    <option>Seleccione una categoria...</option>
+                                                </select>
+                                                <div class="invalid-feedback" id="error-categoriaPromo"></div>
+                                            </div>
 
                                             <div class="mb-3">
                                                 <label class="form-label">Precio</label>

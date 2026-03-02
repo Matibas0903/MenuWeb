@@ -29,6 +29,23 @@ data.forEach(categoria => {
 
 }
 
+async function cargarSubCategorias() {
+
+const selectSubCategoria = document.getElementById("subCategoria")
+selectSubCategoria.innerHTML = `<option value="">Seleccione una Sub-categoria...</option>`;
+const response = await fetch("cargarSubCategorias.php");
+const data = await response.json();
+
+data.forEach(subCategoria => {
+
+    const option = document.createElement("option");
+    option.value = categoria.ID_SUBCATEGORIA;
+    option.textContent = categoria.NOMBRE_SUBCATEGORIA;
+    selectSubCategoria.appendChild(option);
+});
+
+}
+
 async function enviarProducto(e) {
     e.preventDefault();
     const FormProducto = new FormData(document.getElementById("form-producto"));

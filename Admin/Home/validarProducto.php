@@ -5,7 +5,7 @@ require("C:/xampp\htdocs\Menu_Web\conexion.php");
 
 header("Content-Type: Application/json");
 
-$nombre = $categoria = $precio = $imagen = "";
+$nombre = $subCategoria = $precio = $imagen = "";
 
 $errores = [];
 
@@ -13,7 +13,7 @@ try {
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $nombre = $_POST["nombre"] ?? null;
-        $categoria = $_POST["categoria"] ?? null;
+        $subCategoria = $_POST["subCategoria"] ?? null;
         $precio = $_POST["precio"] ?? null;
         $imagen = $_FILES["imagen"] ?? null;
 
@@ -31,19 +31,19 @@ try {
         if ($existeNombre) {
             $errores["nombre"] = "Ya hay un producto con ese nombre";
         }
-        if (empty($categoria) || $categoria === "") {
-            $errores["categoria"] = "Categoria invalida";
+        if (empty($subCategoria) || $subCategoria === "") {
+            $errores["subCategoria"] = "Sub-Categoria invalida";
         }
 
-        $sql = "SELECT ID_CATEGORIA FROM categoria where ID_CATEGORIA = :id";
+        $sql = "SELECT ID_SUBCATEGORIA FROM subCategoria where ID_SUBCATEGORIA = :id";
         $stmtCategoria = $conn->prepare($sql);
-        $stmtCategoria->bindParam(":id", $categoria, PDO::PARAM_INT);
+        $stmtCategoria->bindParam(":id", $subCategoria, PDO::PARAM_INT);
         $stmtCategoria->execute();
 
         $existeCategoria = $stmtCategoria->fetch(PDO::FETCH_ASSOC);
 
         if (!$existeCategoria) {
-            $errores["categoria"] = "Categoria invalida";
+            $errores["subCategoria"] = "Categoria invalida";
         }
         if ($precio < 0 || empty($precio) && !is_numeric($precio)) {
             $errores["precio"] = "Precio invalido";
@@ -64,10 +64,10 @@ try {
         }
 
         if (empty($errores)) {
-            $sql = "INSERT INTO PRODUCTO(ID_CATEGORIA, NOMBRE, PRECIO, IMAGEN_URL) VALUES (:id_categoria, :nombre, :precio, :imagenURL)";
+            $sql = "INSERT INTO PRODUCTO(NOMBRE, PRECIO, IMAGEN_URL, ID_SUBCATEGORIA) VALUES (:nombre, :precio, :imagenURL, :id_subCategoria)";
             $stmtInsert = $conn->prepare($sql);
 
-            $stmtInsert->bindParam(":id_categoria", $categoria, PDO::PARAM_INT);
+            $stmtInsert->bindParam(":id_subCategoria", $subCategoria, PDO::PARAM_INT);
             $stmtInsert->bindParam(":nombre", $nombre);
             $stmtInsert->bindParam(":precio", $precio);
             $stmtInsert->bindParam(":imagenURL", $rutaFinal);
