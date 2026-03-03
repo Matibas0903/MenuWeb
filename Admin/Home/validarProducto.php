@@ -5,7 +5,7 @@ require("C:/xampp\htdocs\Menu_Web\Menu_Web\conexion.php");
 
 header("Content-Type: Application/json");
 
-$nombre = $categoria = $precio = $imagen = "";
+$nombre = $subCategoria = $precio = $imagen = "";
 
 $errores = [];
 
@@ -13,7 +13,7 @@ try {
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $nombre = $_POST["nombre"] ?? null;
-        $categoria = $_POST["categoria"] ?? null;
+        $subCategoria = $_POST["subCategoria"] ?? null;
         $precio = $_POST["precio"] ?? null;
         $imagen = $_FILES["imagen"] ?? null;
 
@@ -31,43 +31,50 @@ try {
         if ($existeNombre) {
             $errores["nombre"] = "Ya hay un producto con ese nombre";
         }
-        if (empty($categoria) || $categoria === "") {
-            $errores["categoria"] = "Categoria invalida";
+        if (empty($subCategoria) || $subCategoria === "") {
+            $errores["subCategoria"] = "Sub-Categoria invalida";
         }
 
-        $sql = "SELECT ID_CATEGORIA FROM categoria where ID_CATEGORIA = :id";
+        $sql = "SELECT ID_SUBCATEGORIA FROM subCategoria where ID_SUBCATEGORIA = :id";
         $stmtCategoria = $conn->prepare($sql);
-        $stmtCategoria->bindParam(":id", $categoria, PDO::PARAM_INT);
+        $stmtCategoria->bindParam(":id", $subCategoria, PDO::PARAM_INT);
         $stmtCategoria->execute();
 
         $existeCategoria = $stmtCategoria->fetch(PDO::FETCH_ASSOC);
 
         if (!$existeCategoria) {
-            $errores["categoria"] = "Categoria invalida";
+            $errores["subCategoria"] = "Categoria invalida";
         }
         if ($precio < 0 || empty($precio) && !is_numeric($precio)) {
             $errores["precio"] = "Precio invalido";
         }
 
-        if ($imagen["error"] !== 0) {
-            $errores["imagen"] = "Debe seleccionar una imagen valida";
-        } else if ($imagen) {
-            $tmp = $imagen["tmp_name"];
 
-            // nombre unico
-            $nombreArchivo = time() . "_" . basename($imagen["name"]);
+        $rutaFinal = null; // por defecto sin imagen
 
-            // carpeta destino absoluta (xampp)
-            $carpetaDestino = __DIR__ . "/../../Resources/img_productos/";
+        if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] !== UPLOAD_ERR_NO_FILE) {
 
-            $rutaFinal = $carpetaDestino . $nombreArchivo;
+            if ($_FILES["imagen"]["error"] !== 0) {
+                $errores["imagen"] = "Error al subir la imagen";
+            } else {
+
+                $imagen = $_FILES["imagen"];
+                $tmp = $imagen["tmp_name"];
+
+                // nombre unico
+                $nombreArchivo = time() . "_" . basename($imagen["name"]);
+
+                // carpeta destino
+                $carpetaDestino = __DIR__ . "/../../Resources/img_productos/";
+                $rutaFinal = $carpetaDestino . $nombreArchivo;
+            }
         }
 
         if (empty($errores)) {
-            $sql = "INSERT INTO PRODUCTO(ID_CATEGORIA, NOMBRE, PRECIO, IMAGEN_URL) VALUES (:id_categoria, :nombre, :precio, :imagenURL)";
+            $sql = "INSERT INTO PRODUCTO(NOMBRE, PRECIO, IMAGEN_URL, ID_SUBCATEGORIA) VALUES (:nombre, :precio, :imagenURL, :id_subCategoria)";
             $stmtInsert = $conn->prepare($sql);
 
-            $stmtInsert->bindParam(":id_categoria", $categoria, PDO::PARAM_INT);
+            $stmtInsert->bindParam(":id_subCategoria", $subCategoria, PDO::PARAM_INT);
             $stmtInsert->bindParam(":nombre", $nombre);
             $stmtInsert->bindParam(":precio", $precio);
             $stmtInsert->bindParam(":imagenURL", $rutaFinal);
@@ -75,13 +82,15 @@ try {
             $stmtInsert->execute();
 
             // mover archivo
-            if (!move_uploaded_file($tmp, $rutaFinal)) {
-                $errores["imagen"] = "Error al guardar la imagen";
-                echo json_encode([
-                    "status" => "error",
-                    "errors" => $errores
-                ]);
-                exit;
+            if ($rutaFinal !== null) {
+                if (!move_uploaded_file($tmp, $rutaFinal)) {
+                    $errores["imagen"] = "Error al guardar la imagen";
+                    echo json_encode([
+                        "status" => "error",
+                        "errors" => $errores
+                    ]);
+                    exit;
+                }
             }
 
             //encode

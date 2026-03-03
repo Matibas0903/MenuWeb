@@ -13,6 +13,7 @@ try {
         $nombrePromo = $_POST["nombrePromo"] ?? null;
         $precioPromo = $_POST["precioPromo"] ?? null;
         $imagenPromo = $_FILES["imagenPromo"] ?? null;
+        $categoriaPromo = $_POST["categoriaPromo"] ?? null;
 
         $sql = "SELECT NOMBRE_PROMO FROM promo where NOMBRE_PROMO = :nombre";
         $stmtNombre = $conn->prepare($sql);
@@ -29,6 +30,22 @@ try {
             $errores["nombrePromo"] = "Ya hay un producto con ese nombre";
             exit;
         }
+
+        if (empty($categoriaPromo) || $categoriaPromo === "") {
+            $errores["categoriaPromo"] = "Categoria invalida";
+        }
+
+        $sql = "SELECT ID_CATEGORIA  FROM categoria where ID_CATEGORIA = :id";
+        $stmtCategoria = $conn->prepare($sql);
+        $stmtCategoria->bindParam(":id", $categoriaPromo, PDO::PARAM_INT);
+        $stmtCategoria->execute();
+
+        $existeCategoria = $stmtCategoria->fetch(PDO::FETCH_ASSOC);
+
+        if (!$existeCategoria) {
+            $errores["categoriaPromo"] = "Categoria invalida";
+        }
+
 
 
         if ($precioPromo < 0 && empty($precioPromo) && !is_numeric($precioPromo)) {
@@ -55,12 +72,13 @@ try {
         }
 
         if (empty($errores)) {
-            $sql = "INSERT INTO promo(PRECIO, IMAGEN_URL_PROMO, NOMBRE_PROMO) VALUES (:precio, :imagenURL, :nombre)";
+            $sql = "INSERT INTO promo(PRECIO, IMAGEN_URL_PROMO, NOMBRE_PROMO, ID_CATEGORIA) VALUES (:precio, :imagenURL, :nombre, :id_categoria)";
             $stmtInsert = $conn->prepare($sql);
 
             $stmtInsert->bindParam(":nombre", $nombrePromo);
             $stmtInsert->bindParam(":precio", $precioPromo);
             $stmtInsert->bindParam(":imagenURL", $rutaFinal);
+            $stmtInsert->bindParam("id_categoria", $categoriaPromo);
 
             $stmtInsert->execute();
 

@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", () =>{
 
-cargarCategorias();
+const selectCategoria = document.getElementById("categoria");
+const selectCategoriaPromo = document.getElementById("categoriaPromo");
+cargarSubCategorias();
+
+cargarCategorias(selectCategoria);
+cargarCategorias(selectCategoriaPromo);
 
 const guardarProducto = document.getElementById("guardarProducto");
 const guardarCategoria = document.getElementById("guardarCategoria");
@@ -12,9 +17,9 @@ guardarPromo.addEventListener("click", enviarPromo);
 
 })
 
-async function cargarCategorias() {
+async function cargarCategorias(selectCategoria) {
 
-const selectCategoria = document.getElementById("categoria")
+
 selectCategoria.innerHTML = `<option value="">Seleccione una categoria...</option>`;
 const response = await fetch("cargarCategorias.php");
 const data = await response.json();
@@ -25,6 +30,23 @@ data.forEach(categoria => {
     option.value = categoria.ID_CATEGORIA;
     option.textContent = categoria.NOMBRE_CATEGORIA;
     selectCategoria.appendChild(option);
+});
+
+}
+
+async function cargarSubCategorias() {
+
+const selectSubCategoria = document.getElementById("subCategoria")
+selectSubCategoria.innerHTML = `<option value="">Seleccione una Sub-categoria...</option>`;
+const response = await fetch("cargarSubCategorias.php");
+const data = await response.json();
+
+data.forEach(subCategoria => {
+
+    const option = document.createElement("option");
+    option.value = subCategoria.ID_SUBCATEGORIA;
+    option.textContent = subCategoria.NOMBRE_SUBCATEGORIA;
+    selectSubCategoria.appendChild(option);
 });
 
 }
@@ -102,7 +124,7 @@ async function enviarCategoria(e) {
     }
     else{
     console.log("categoria agregada");
-    cargarCategorias()
+    cargarSubCategorias()
  
     const form = document.getElementById("form-categoria");
     form.reset();
