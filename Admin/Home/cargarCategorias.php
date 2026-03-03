@@ -1,5 +1,5 @@
 <?php
-require("C:/xampp\htdocs\Menu_Web\conexion.php");
+require("C:/xampp\htdocs\Menu_Web\Menu_Web\conexion.php");
 header("content-type: application/json");
 try {
     $sql = "SELECT * FROM categoria";

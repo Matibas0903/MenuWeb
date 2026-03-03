@@ -18,7 +18,7 @@ if (!isset($_SESSION["idUsuario"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-    <link rel="stylesheet" href="/Menu_Web/style.css">
+    <link rel="stylesheet" href="/Menu_Web/Menu_Web/style.css">
     <script src="home.js" defer></script>
 </head>
 
@@ -49,8 +49,35 @@ if (!isset($_SESSION["idUsuario"])) {
                 <li class="nav-item">
                     <a class="nav-link" href="#">Promos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categorías</a>
+                <li class="nav-item dropdown">
+                    <!--<a class="nav-link" href="#">Categorías</a>-->
+                    <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" 
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categorías
+                    </a>
+                    <ul class="dropdown-menu">
+
+                        <!-- Cervezas -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Cervezas</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Honey</a></li>
+                                <li><a class="dropdown-item" href="#">IPA</a></li>
+                                <li><a class="dropdown-item" href="#">Stout</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Aperitivos -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Aperitivos</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Fernet</a></li>
+                                <li><a class="dropdown-item" href="#">Gancia</a></li>
+                                <li><a class="dropdown-item" href="#">Campari</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
                 </li>
             </ul>
 

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require("C:/xampp\htdocs\Menu_Web\conexion.php");
+require("C:/xampp\htdocs\Menu_Web\Menu_Web\conexion.php");
 
 $nombre  = $contraseña = "";
 
@@ -80,7 +80,7 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="login.js" defer> </script>
-    <link rel="stylesheet" href="/Menu_Web/style.css">
+    <link rel="stylesheet" href="/Menu_Web/Menu_Web/style.css">
 
 </head>
 

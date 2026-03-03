@@ -1,7 +1,7 @@
 <?php
 
 
-require("C:/xampp\htdocs\Menu_Web\conexion.php");
+require("C:/xampp\htdocs\Menu_Web\Menu_Web\conexion.php");
 
 $mail = "";
 
