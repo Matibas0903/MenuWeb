@@ -3,7 +3,7 @@ require("C:/xampp\htdocs\Menu_Web\conexion.php");
 
 header("Content-Type: Application/json");
 
-$nombrePromo = $precioPromo = $imagenPromo = "";
+$nombrePromo = $precioPromo = $imagenPromo = $descripcionPromo = "";
 
 $errores = [];
 
@@ -14,6 +14,7 @@ try {
         $precioPromo = $_POST["precioPromo"] ?? null;
         $imagenPromo = $_FILES["imagenPromo"] ?? null;
         $categoriaPromo = $_POST["categoriaPromo"] ?? null;
+        $descripcionPromo = $_POST["descripcionPromo"] ?? null;
 
         $sql = "SELECT NOMBRE_PROMO FROM promo where NOMBRE_PROMO = :nombre";
         $stmtNombre = $conn->prepare($sql);
@@ -30,7 +31,9 @@ try {
             $errores["nombrePromo"] = "Ya hay un producto con ese nombre";
             exit;
         }
-
+        if (strlen($descripcionPromo) > 120) {
+            $errores["descripcion"] = "La descripcion es muy larga";
+        }
         if (empty($categoriaPromo) || $categoriaPromo === "") {
             $errores["categoriaPromo"] = "Categoria invalida";
         }
@@ -72,13 +75,14 @@ try {
         }
 
         if (empty($errores)) {
-            $sql = "INSERT INTO promo(PRECIO, IMAGEN_URL_PROMO, NOMBRE_PROMO, ID_CATEGORIA) VALUES (:precio, :imagenURL, :nombre, :id_categoria)";
+            $sql = "INSERT INTO promo(PRECIO, IMAGEN_URL_PROMO, NOMBRE_PROMO, ID_CATEGORIA, DESCRIPCION) VALUES (:precio, :imagenURL, :nombre, :id_categoria, :descripcion)";
             $stmtInsert = $conn->prepare($sql);
 
             $stmtInsert->bindParam(":nombre", $nombrePromo);
             $stmtInsert->bindParam(":precio", $precioPromo);
             $stmtInsert->bindParam(":imagenURL", $rutaFinal);
             $stmtInsert->bindParam("id_categoria", $categoriaPromo);
+            $stmtInsert->bindParam(":descripcion", $descripcionPromo);
 
             $stmtInsert->execute();
 

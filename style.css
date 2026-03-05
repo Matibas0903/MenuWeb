@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
 }
@@ -8,17 +9,18 @@ body {
     background-size: cover;
     background-repeat: repeat-y;
     background-position: center;
-       
+
 }
+
 body::before {
     content: "";
     position: fixed;
-    inset: 0;         
-    background: rgba(0, 0, 0, 0.5); 
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
     z-index: 0;
 }
 
-.logo{
+.logo {
     width: 320px;
     height: auto;
     justify-content: center;
@@ -28,19 +30,19 @@ body::before {
 
 
 .login-card {
-    width: 400px;  
+    width: 400px;
     border-radius: 20px;
     background: rgba(0, 0, 0, 0.5);
     color: white;
 }
 
-.home-card{
+.home-card {
     max-width: 400px;
     margin: auto;
     border-radius: 20px;
     background: rgba(0, 0, 0, 0.5);
     color: white;
-    
+
 
 }
 
@@ -48,7 +50,7 @@ body::before {
     max-width: 170px;
     margin: 5px auto;
     display: block;
-     animation: neonPulse 0.5s ease-in-out infinite alternate;
+    animation: neonPulse 0.5s ease-in-out infinite alternate;
 }
 
 
@@ -56,22 +58,17 @@ body::before {
 @keyframes neonPulse {
     from {
         filter:
-            drop-shadow(0 0 3px #F3699D)
-            drop-shadow(0 0 8px #F3699D)
-            drop-shadow(0 0 3px #62E1FE)
-        
+            drop-shadow(0 0 3px #F3699D) drop-shadow(0 0 8px #F3699D) drop-shadow(0 0 3px #62E1FE)
     }
+
     to {
         filter:
-            drop-shadow(0 0 5px #F3699D)
-            drop-shadow(0 0 8px #F3699D)
-            drop-shadow(0 0 5px #62E1FE)
-         
+            drop-shadow(0 0 5px #F3699D) drop-shadow(0 0 8px #F3699D) drop-shadow(0 0 5px #62E1FE)
     }
 }
 
-.home-btn{
-    
+.home-btn {
+
     padding: 18px 50px;
     font-size: 28px;
     letter-spacing: 2px;
@@ -83,8 +80,8 @@ body::before {
 
 }
 
-.btn-form{
-    
+.btn-form {
+
     padding: 18px 50px;
     font-size: 18px;
     letter-spacing: 2px;
@@ -96,8 +93,8 @@ body::before {
 
 }
 
-.mini-btn-form{
-    
+.mini-btn-form {
+
     padding: 10px 25px;
     font-size: 13px;
     letter-spacing: 2px;
@@ -125,4 +122,84 @@ body::before {
     background-color: #1e1e1e;
     color: #fff;
     border: 1px solid #333;
+}
+
+.listaSeccion {
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+}
+
+.SubCategoria {
+    color: #62E1FE;
+    text-align: center;
+    font-size: 28px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    animation: neonPulse 0.8s ease-in-out infinite alternate;
+}
+
+.lista-producto {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-producto li {
+    margin-bottom: 15px;
+
+}
+
+.item-info {
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid #F3699D;
+    border-radius: 15px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.item-info:hover {
+    transform: scale(1.02);
+    box-shadow:
+        0 0 10px #F3699D,
+        0 0 20px #62E1FE;
+}
+
+.lista-producto li {
+    margin-bottom: 15px;
+}
+
+.item-info {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #F3699D;
+    border-radius: 15px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.item-info:hover {
+    transform: scale(1.02);
+    box-shadow:
+        0 0 10px #F3699D,
+        0 0 20px #62E1FE;
+}
+
+#menuContainer {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    position: relative;
+    z-index: 1;
+}
+
+textarea.form-control {
+    resize: none;
+}
+
+.descripcion {
+    color: lightgray;
 }

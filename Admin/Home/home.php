@@ -93,6 +93,12 @@ if (!isset($_SESSION["idUsuario"])) {
                                     </div>
 
                                     <div class="mb-3">
+                                        <label for="descripcion" class="form-label">Descripcion</label>
+                                        <textarea name="descripcion" id="descripcion" class="form-control" cols="2" maxlength="120"></textarea>
+                                        <div class="invalid-feedback" id="error-descripcion"></div>
+                                    </div>
+
+                                    <div class="mb-3">
                                         <label for="subCategoria" class="form-label">Sub-Categoría</label>
                                         <select id="subCategoria" name="subCategoria" class="form-select">
                                             <option>Seleccione una sub-categoria...</option>
@@ -170,6 +176,13 @@ if (!isset($_SESSION["idUsuario"])) {
                                                 <label class="form-label">Nombre de promo</label>
                                                 <input type="text" id="nombrePromo" name="nombrePromo" class="form-control">
                                                 <div class="invalid-feedback" id="error-nombrePromo"></div>
+                                            </div>
+
+
+                                            <div class="mb-3">
+                                                <label for="descripcionPromo" class="form-label">Descripcion</label>
+                                                <textarea name="descripcionPromo" id="descripcionPromo" class="form-control" cols="2" maxlength="120"></textarea>
+                                                <div class="invalid-feedback" id="error-descripcionPromo"></div>
                                             </div>
 
                                             <div class="mb-3">

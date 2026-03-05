@@ -5,7 +5,7 @@ require("C:/xampp\htdocs\Menu_Web\conexion.php");
 
 header("Content-Type: Application/json");
 
-$nombre = $subCategoria = $precio = $imagen = "";
+$nombre = $subCategoria = $precio = $imagen = $descripcion = "";
 
 $errores = [];
 
@@ -16,6 +16,8 @@ try {
         $subCategoria = $_POST["subCategoria"] ?? null;
         $precio = $_POST["precio"] ?? null;
         $imagen = $_FILES["imagen"] ?? null;
+        $descripcion = $_POST["descripcion"] ?? null;
+
 
         $sql = "SELECT NOMBRE FROM  producto where NOMBRE = :nombre";
         $stmtNombre = $conn->prepare($sql);
@@ -26,11 +28,16 @@ try {
 
 
         if (empty($nombre)) {
-            $errores["nombre"] = "El nombre esta vacio.";
+            $errores["nombre"] = "El nombre esta vacio";
         }
         if ($existeNombre) {
             $errores["nombre"] = "Ya hay un producto con ese nombre";
         }
+
+        if (strlen($descripcion) > 120) {
+            $errores["descripcion"] = "La descripcion es muy larga";
+        }
+
         if (empty($subCategoria) || $subCategoria === "") {
             $errores["subCategoria"] = "Sub-Categoria invalida";
         }
@@ -45,7 +52,7 @@ try {
         if (!$existeCategoria) {
             $errores["subCategoria"] = "Categoria invalida";
         }
-        if ($precio < 0 || empty($precio) && !is_numeric($precio)) {
+        if (empty($precio) || !is_numeric($precio) || $precio < 0) {
             $errores["precio"] = "Precio invalido";
         }
 
@@ -53,6 +60,16 @@ try {
         $rutaFinal = null; // por defecto sin imagen
 
         if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] !== UPLOAD_ERR_NO_FILE) {
+
+            $tiposPermitidos = ["image/jpeg", "image/png", "image/webp", "image/avif"];
+
+            if (!in_array($_FILES["imagen"]["type"], $tiposPermitidos)) {
+                $errores["imagen"] = "Formato de imagen no permitido";
+            }
+
+            if ($_FILES["imagen"]["size"] > 5 * 1024 * 1024) {
+                $errores["imagen"] = "La imagen es demasiado grande";
+            }
 
             if ($_FILES["imagen"]["error"] !== 0) {
                 $errores["imagen"] = "Error al subir la imagen";
@@ -66,18 +83,20 @@ try {
 
                 // carpeta destino
                 $carpetaDestino = __DIR__ . "/../../Resources/img_productos/";
+                $rutaPublica = "/Menu_Web/Resources/img_productos/" . $nombreArchivo;
                 $rutaFinal = $carpetaDestino . $nombreArchivo;
             }
         }
 
         if (empty($errores)) {
-            $sql = "INSERT INTO PRODUCTO(NOMBRE, PRECIO, IMAGEN_URL, ID_SUBCATEGORIA) VALUES (:nombre, :precio, :imagenURL, :id_subCategoria)";
+            $sql = "INSERT INTO PRODUCTO(NOMBRE, PRECIO, IMAGEN_URL, ID_SUBCATEGORIA, DESCRIPCION) VALUES (:nombre, :precio, :imagenURL, :id_subCategoria, :descripcion)";
             $stmtInsert = $conn->prepare($sql);
 
             $stmtInsert->bindParam(":id_subCategoria", $subCategoria, PDO::PARAM_INT);
             $stmtInsert->bindParam(":nombre", $nombre);
             $stmtInsert->bindParam(":precio", $precio);
-            $stmtInsert->bindParam(":imagenURL", $rutaFinal);
+            $stmtInsert->bindParam(":imagenURL", $rutaPublica);
+            $stmtInsert->bindParam(":descripcion", $descripcion);
 
             $stmtInsert->execute();
 

@@ -16,7 +16,7 @@
 <body>
     <div class="container">
         <div>
-            <a href="" class="home-btn">Restaurante</a>
+            <a href="Restaurante.php" class="home-btn">Restaurante</a>
         </div>
 
         <div class="">
@@ -25,7 +25,7 @@
 
 
         <div>
-            <a href="" class="home-btn">Bar</a>
+            <a href="Bar.php" class="home-btn">Bar</a>
         </div>
 
     </div>
