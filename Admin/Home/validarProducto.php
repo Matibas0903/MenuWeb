@@ -1,7 +1,7 @@
 <?php
 
 
-require("C:/xampp\htdocs\Menu_Web\conexion.php");
+require_once __DIR__ . "/../../config/conexion.php";
 
 header("Content-Type: Application/json");
 
@@ -125,7 +125,7 @@ try {
 } catch (PDOException $e) {
     echo json_encode([
         "status" => "error",
-        "errors" => "error al insertar el producto"
+        "errors" => "error al agregar el producto"
     ]);
     exit;
 }

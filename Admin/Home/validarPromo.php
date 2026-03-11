@@ -1,5 +1,5 @@
 <?php
-require("C:/xampp\htdocs\Menu_Web\conexion.php");
+require_once __DIR__ . "/../../config/conexion.php";
 
 header("Content-Type: Application/json");
 
@@ -55,41 +55,71 @@ try {
             $errores["precioPromo"] = "Precio invalido";
         }
 
-        if ($imagenPromo["error"] !== 0) {
-            $errores["imagenPromo"] = "Debe seleccionar una imagen valida";
-        } else if ($imagenPromo) {
-            $tmp = $imagenPromo["tmp_name"];
 
-            // nombre unico
-            $nombreArchivo = time() . "_" . basename($imagenPromo["name"]);
 
-            // carpeta destino absoluta (xampp)
-            $carpetaDestino = __DIR__ . "/../../Resources/img_promos/";
+        $rutaFinal = null; // por defecto sin imagen
 
-            $rutaFinal = $carpetaDestino . $nombreArchivo;
+        if (isset($_FILES["imagenPromo"]) && $_FILES["imagenPromo"]["error"] !== UPLOAD_ERR_NO_FILE) {
 
-            // mover archivo
-            if (!move_uploaded_file($tmp, $rutaFinal)) {
-                $errores["imagenPromo"] = "Error al guardar la imagen";
+            $tiposPermitidos = ["image/jpeg", "image/png", "image/webp", "image/avif"];
+
+            if (!in_array($_FILES["imagenPromo"]["type"], $tiposPermitidos)) {
+                $errores["imagenPromo"] = "Formato de imagen no permitido";
+            }
+
+            if ($_FILES["imagenPromo"]["size"] > 5 * 1024 * 1024) {
+                $errores["imagenPromo"] = "La imagen es demasiado grande";
+            }
+
+            if ($_FILES["imagenPromo"]["error"] !== 0) {
+                $errores["imagenPromo"] = "Error al subir la imagen";
+            } else {
+
+                $imagenPromo = $_FILES["imagenPromo"];
+                $tmp = $imagenPromo["tmp_name"];
+
+                // nombre unico
+                $nombreArchivo = time() . "_" . basename($imagenPromo["name"]);
+
+                // carpeta destino
+                $carpetaDestino = __DIR__ . "/../../Resources/img_promos/";
+                $rutaPublica = "/Menu_Web/Resources/img_promos/" . $nombreArchivo;
+
+                $rutaFinal = $carpetaDestino . $nombreArchivo;
             }
         }
 
         if (empty($errores)) {
-            $sql = "INSERT INTO promo(PRECIO, IMAGEN_URL_PROMO, NOMBRE_PROMO, ID_CATEGORIA, DESCRIPCION) VALUES (:precio, :imagenURL, :nombre, :id_categoria, :descripcion)";
+
+            $sql = "INSERT INTO promo(PRECIO, IMAGEN_URL_PROMO, NOMBRE_PROMO, ID_CATEGORIA, DESCRIPCION) 
+            VALUES (:precio, :imagenURL, :nombre, :id_categoria, :descripcion)";
+
             $stmtInsert = $conn->prepare($sql);
 
             $stmtInsert->bindParam(":nombre", $nombrePromo);
             $stmtInsert->bindParam(":precio", $precioPromo);
-            $stmtInsert->bindParam(":imagenURL", $rutaFinal);
-            $stmtInsert->bindParam("id_categoria", $categoriaPromo);
+            $stmtInsert->bindParam(":imagenURL", $rutaPublica);
+            $stmtInsert->bindParam(":id_categoria", $categoriaPromo, PDO::PARAM_INT);
             $stmtInsert->bindParam(":descripcion", $descripcionPromo);
 
             $stmtInsert->execute();
 
-            //encode
-            echo  json_encode(["status" => "ok"]);
+            // mover archivo
+            if ($rutaFinal !== null) {
+                if (!move_uploaded_file($tmp, $rutaFinal)) {
+                    $errores["imagenPromo"] = "Error al guardar la imagen";
+                    echo json_encode([
+                        "status" => "error",
+                        "errors" => $errores
+                    ]);
+                    exit;
+                }
+            }
+
+            echo json_encode(["status" => "ok"]);
             exit;
         }
+
         echo json_encode([
             "status" => "error",
             "errors" => $errores
@@ -99,7 +129,7 @@ try {
 } catch (PDOException $e) {
     echo json_encode([
         "status" => "error",
-        "errors" => "error al insertar la promo"
+        "errors" => "error al agregar la promo"
     ]);
     exit;
 }

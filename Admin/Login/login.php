@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require("C:/xampp\htdocs\Menu_Web\conexion.php");
+require_once __DIR__ . "/../../config/conexion.php";
 
 $nombre  = $contraseña = "";
 

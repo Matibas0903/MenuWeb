@@ -2,90 +2,277 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarMenu();
 });
 
+
+// ==========================================================
+// CARGA PRINCIPAL DEL MENU
+// ==========================================================
+
 async function cargarMenu() {
+
     const contenedor = document.getElementById("menuContainer");
+    const nav = document.getElementById("navSubcategorias");
 
     try {
-        const response = await fetch("obtenerProductosBar.php");
-        const data = await response.json();
 
-        console.log("Datos recibidos:", data);
+        const data = await obtenerProductos();
 
-        // Limpiar contenido inicial (tu bloque de ejemplo)
-        contenedor.innerHTML = "";
         if (data.length === 0) {
-    contenedor.innerHTML = ` <div class="home-btn"><h1>Vaya...</h1>
-        <p>El menu esta vacio.</p>
-         </div>`;
-    return;
-}
+            mostrarMenuVacio(contenedor);
+            return;
+        }
+
+        limpiarContenedores(contenedor, nav);
 
         data.forEach(sub => {
+            
+            // Si es tragos de autor → carrusel
+            if(sub.subcategoria.toLowerCase() === "tragos de autor"){
+                crearCarruselTragosAutor(sub);
+                return;
 
-            // Crear bloque de subcategoria
-            const seccion = document.createElement("div");
-            seccion.classList.add("listaSeccion");
-
-            seccion.innerHTML = `
-                <div class="titulo-container">
-                    <h2 class="SubCategoria">
-                        <p>${sub.subcategoria}</p>
-                    </h2>
-                </div>
-                <ul class="lista-producto"></ul>
-            `;
-
-            const listaProductos = seccion.querySelector(".lista-producto");
-
-            // Si no hay productos
-            if (sub.productos.length === 0) {
-                const li = document.createElement("li");
-                li.innerHTML = `
-                    <div class="item-info">
-                        <span class="nombre">No hay productos disponibles</span>
-                    </div>
-                `;
-                listaProductos.appendChild(li);
             }
 
-            // Recorrer productos
-            sub.productos.forEach(prod => {
 
-                const li = document.createElement("li");
+            crearLinkNav(nav, sub);
 
-                li.innerHTML = `
-                    <div class="item-info d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="nombre fw-bold">
-                                ${prod.nombre}
-                            </span>
-                            <span class="precio ms-2">$${prod.precio}</span>
-                            <div class="descripcion small">
-                ${prod.descripcion}
-            </div>
-                        </div>
-
-                        ${
-                            prod.imagen 
-                            ? `<img src="${prod.imagen}" 
-                                   alt="${prod.nombre}" 
-                                   class="img-producto"
-                                   style="width:70px; height:70px; object-fit:cover; border-radius:8px;">`
-                            : ""
-                        }
-                    </div>
-                `;
-
-                listaProductos.appendChild(li);
-            });
+            const seccion = crearSeccionSubcategoria(sub);
 
             contenedor.appendChild(seccion);
+
         });
 
     } catch (error) {
+
         console.error("Error cargando el menú:", error);
-         contenedor.innerHTML = ` <div class="home-btn"><h1>Oh no...</h1>
-        <p>Error al cargar el menú.</p>
-         </div>`;
+        mostrarErrorMenu(contenedor);
+
     }
+}
+
+
+// ==========================================================
+// FETCH PRODUCTOS
+// ==========================================================
+
+async function obtenerProductos(){
+
+    const response = await fetch("obtenerProductosBar.php");
+
+    return await response.json();
+
+}
+
+
+// ==========================================================
+// LIMPIAR CONTENEDORES
+// ==========================================================
+
+function limpiarContenedores(contenedor, nav){
+
+    contenedor.innerHTML = "";
+    nav.innerHTML = "";
+
+}
+
+
+// ==========================================================
+// CREAR LINK DE NAVEGACION
+// ==========================================================
+
+function crearLinkNav(nav, sub){
+
+    const idSub = sub.subcategoria.replace(/\s+/g, "-").toLowerCase();
+
+    const link = document.createElement("a");
+
+    link.href = `#${idSub}`;
+    link.classList.add("nav-link");
+    link.textContent = sub.subcategoria;
+
+    nav.appendChild(link);
+
+}
+
+
+// ==========================================================
+// CREAR SECCION DE SUBCATEGORIA
+// ==========================================================
+
+function crearSeccionSubcategoria(sub){
+
+    const seccion = document.createElement("div");
+
+    seccion.classList.add("listaSeccion");
+
+    seccion.innerHTML = `
+        <div class="titulo-container">
+            <h2 class="SubCategoria">
+                <p>${sub.subcategoria}</p>
+            </h2>
+        </div>
+        <ul class="lista-producto"></ul>
+    `;
+
+    const listaProductos = seccion.querySelector(".lista-producto");
+
+    if(sub.productos.length === 0){
+
+        listaProductos.appendChild(crearItemSinProductos());
+
+    }else{
+
+        sub.productos.forEach(prod => {
+
+            listaProductos.appendChild(crearProducto(prod));
+
+        });
+
+    }
+
+    return seccion;
+
+}
+
+
+// ==========================================================
+// ITEM SIN PRODUCTOS
+// ==========================================================
+
+function crearItemSinProductos(){
+
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+        <div class="item-info">
+            <span class="nombre">
+                No hay productos disponibles
+            </span>
+        </div>
+    `;
+
+    return li;
+
+}
+
+
+// ==========================================================
+// CREAR PRODUCTO
+// ==========================================================
+
+function crearProducto(prod){
+
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+        <div class="item-info d-flex justify-content-between align-items-center">
+            <div>
+
+                <span class="nombre fw-bold">
+                    ${prod.nombre}
+                </span>
+
+                <span class="precio ms-2">
+                    $${prod.precio}
+                </span>
+
+                <div class="descripcion small">
+                    ${prod.descripcion}
+                </div>
+
+            </div>
+
+            ${
+                prod.imagen
+                ? `<img src="${prod.imagen}"
+                        alt="${prod.nombre}"
+                        class="img-producto"
+                        style="width:70px;height:70px;object-fit:cover;border-radius:8px;">`
+                : ""
+            }
+
+        </div>
+    `;
+
+    return li;
+
+}
+
+
+// ==========================================================
+// MENSAJES
+// ==========================================================
+
+function mostrarMenuVacio(contenedor){
+
+    contenedor.innerHTML = `
+        <div class="home-btn">
+            <h1>Vaya...</h1>
+            <p>El menu esta vacio.</p>
+        </div>
+    `;
+
+}
+
+function mostrarErrorMenu(contenedor){
+
+    contenedor.innerHTML = `
+        <div class="home-btn">
+            <h1>Oh no...</h1>
+            <p>Error al cargar el menú.</p>
+        </div>
+    `;
+
+}
+
+// ==========================================================
+// CARRUSEL TRAGOS DE AUTOR (OPCIONAL)
+// ==========================================================
+
+function crearCarruselTragosAutor(subcategoria){
+
+    const contenedor = document.getElementById("menuContainer");
+
+    const seccion = document.createElement("div");
+
+    seccion.classList.add("carrusel-tragos");
+
+    seccion.innerHTML = `
+        <div class="titulo-container">
+            <h2 class="SubCategoria">
+                ${subcategoria.subcategoria}
+            </h2>
+        </div>
+
+        <div class="carrusel-scroll"></div>
+    `;
+
+    const carrusel = seccion.querySelector(".carrusel-scroll");
+
+    subcategoria.productos.forEach(prod => {
+
+        carrusel.innerHTML += `
+        <div class="trago-card">
+
+            ${
+                prod.imagen
+                ? `<img src="${prod.imagen}" alt="${prod.nombre}">`
+                : ""
+            }
+
+            <h5>${prod.nombre}</h5>
+
+            <p class="ingredientes">
+                ${prod.descripcion}
+            </p>
+
+            <span class="precio">
+                $${prod.precio}
+            </span>
+
+        </div>
+        `;
+    });
+
+    contenedor.appendChild(seccion);
+
 }
