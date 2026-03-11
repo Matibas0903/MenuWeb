@@ -1,5 +1,5 @@
 <?php
-require_once ROOT_PATH . "/config/conexion.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/config/conexion.php";
 header("content-type: application/json");
 try {
     $sql = "SELECT * FROM categoria";

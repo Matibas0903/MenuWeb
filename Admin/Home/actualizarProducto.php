@@ -1,7 +1,7 @@
 <?php
 
 
-require_once ROOT_PATH . "/config/conexion.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/config/conexion.php";
 
 header("Content-Type: Application/json");
 
