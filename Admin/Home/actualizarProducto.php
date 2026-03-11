@@ -1,7 +1,7 @@
 <?php
 
 
-require_once __DIR__ . "/../../config/conexion.php";
+require_once ROOT_PATH . "/config/conexion.php";
 
 header("Content-Type: Application/json");
 

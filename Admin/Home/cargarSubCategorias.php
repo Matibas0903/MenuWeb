@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../../config/conexion.php";
+require_once ROOT_PATH . "/config/conexion.php";
 header("content-type: application/json");
 try {
     $sql = "SELECT * FROM subcategoria";
