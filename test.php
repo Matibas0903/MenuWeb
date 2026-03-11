@@ -1,5 +1,8 @@
 <?php
-echo "HOST: " . getenv("MYSQLHOST") . "<br>";
-echo "PORT: " . getenv("MYSQLPORT") . "<br>";
-echo "DB: " . getenv("MYSQL_DATABASE") . "<br>";
-echo "USER: " . getenv("MYSQLUSER") . "<br>";
+require_once __DIR__ . "../config/conexion.php";
+
+$stmt = $pdo->query("SHOW TABLES");
+
+$tablas = $stmt->fetchAll();
+
+print_r($tablas);
