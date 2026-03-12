@@ -99,7 +99,7 @@ function crearSeccionSubcategoria(sub){
     seccion.innerHTML = `
         <div class="titulo-container">
             <h2 class="SubCategoria">
-                <p>${sub.subcategoria}</p>
+                <p class="${sub.subcategoria}">${sub.subcategoria}</p>
             </h2>
         </div>
         <ul class="lista-producto"></ul>
