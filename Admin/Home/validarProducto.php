@@ -89,7 +89,7 @@ try {
         }
 
         if (empty($errores)) {
-            $sql = "INSERT INTO PRODUCTO(NOMBRE, PRECIO, IMAGEN_URL, ID_SUBCATEGORIA, DESCRIPCION) VALUES (:nombre, :precio, :imagenURL, :id_subCategoria, :descripcion)";
+            $sql = "INSERT INTO producto(NOMBRE, PRECIO, IMAGEN_URL, ID_SUBCATEGORIA, DESCRIPCION) VALUES (:nombre, :precio, :imagenURL, :id_subCategoria, :descripcion)";
             $stmtInsert = $conn->prepare($sql);
 
             $stmtInsert->bindParam(":id_subCategoria", $subCategoria, PDO::PARAM_INT);

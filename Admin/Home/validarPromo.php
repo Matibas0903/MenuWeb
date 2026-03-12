@@ -82,8 +82,8 @@ try {
                 $nombreArchivo = time() . "_" . basename($imagenPromo["name"]);
 
                 // carpeta destino
-                $carpetaDestino = __DIR__ . "/../../Resources/img_promos/";
-                $rutaPublica = "/Menu_Web/Resources/img_promos/" . $nombreArchivo;
+                $carpetaDestino = $_SERVER['DOCUMENT_ROOT'] . "/Resources/img_promos/";
+                $rutaPublica = "/Resources/img_promos/" . $nombreArchivo;
 
                 $rutaFinal = $carpetaDestino . $nombreArchivo;
             }

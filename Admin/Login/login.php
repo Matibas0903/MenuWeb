@@ -110,11 +110,7 @@ try {
                     </div>
                 </form>
 
-                <!--
-                <div class="text-center mt-3">
-                    <a href="\Menu_Web\Admin\Registro\registro.php">Crear cuenta</a>
-                </div>
-                -->
+
             </div>
 
         </div>
