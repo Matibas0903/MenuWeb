@@ -42,7 +42,7 @@ try {
             $errores["subCategoria"] = "Sub-Categoria invalida";
         }
 
-        $sql = "SELECT ID_SUBCATEGORIA FROM subCategoria where ID_SUBCATEGORIA = :id";
+        $sql = "SELECT ID_SUBCATEGORIA FROM subcategoria where ID_SUBCATEGORIA = :id";
         $stmtCategoria = $conn->prepare($sql);
         $stmtCategoria->bindParam(":id", $subCategoria, PDO::PARAM_INT);
         $stmtCategoria->execute();
