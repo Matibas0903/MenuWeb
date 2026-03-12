@@ -50,8 +50,54 @@ async function cargarMenu() {
 }
 
 
+
+async function cargarPromos() {
+
+    const contenedor = document.getElementById("menuContainer");
+
+    try {
+        const data = await obtenerPromos();
+
+        if (data.length === 0) {
+            // Opcional: si no hay promos
+            return;
+        }
+
+        data.forEach(cat => {
+            // Crear sección de categoría de promo
+            const seccion = document.createElement("div");
+            seccion.classList.add("listaSeccion");
+
+            seccion.innerHTML = `
+                <div class="titulo-container">
+                    <h2 class="Categoria">${cat.categoria}</h2>
+                </div>
+                <ul class="lista-producto"></ul>
+            `;
+
+            const lista = seccion.querySelector(".lista-producto");
+
+            if (cat.promos.length === 0) {
+                lista.appendChild(crearItemSinProductos());
+            } else {
+                cat.promos.forEach(promo => {
+                    lista.appendChild(crearPromo(promo));
+                });
+            }
+
+            contenedor.appendChild(seccion);
+        });
+
+    } catch (error) {
+        console.error("Error cargando promos:", error);
+    }
+
+}
+
+
+
 // ==========================================================
-// FETCH PRODUCTOS
+// FETCH ELEMENTOS
 // ==========================================================
 
 async function obtenerProductos(){
@@ -62,6 +108,11 @@ async function obtenerProductos(){
 
 }
 
+
+async function obtenerPromos() {
+    const response = await fetch("obtenerPromos.php");
+    return await response.json();
+}
 
 // ==========================================================
 // LIMPIAR CONTENEDORES
@@ -157,7 +208,7 @@ function crearItemSinProductos(){
 
 
 // ==========================================================
-// CREAR PRODUCTO
+// CREAR ELEMNTOS
 // ==========================================================
 
 function crearProducto(prod){
@@ -195,6 +246,50 @@ function crearProducto(prod){
     `;
 
     return li;
+
+}
+
+
+async function cargarPromos() {
+
+    const contenedor = document.getElementById("menuContainer");
+
+    try {
+        const data = await obtenerPromos();
+
+        if (data.length === 0) {
+            // Opcional: si no hay promos
+            return;
+        }
+
+        data.forEach(cat => {
+            // Crear sección de categoría de promo
+            const seccion = document.createElement("div");
+            seccion.classList.add("listaSeccion");
+
+            seccion.innerHTML = `
+                <div class="titulo-container">
+                    <h2 class="Categoria">${cat.categoria}</h2>
+                </div>
+                <ul class="lista-producto"></ul>
+            `;
+
+            const lista = seccion.querySelector(".lista-producto");
+
+            if (cat.promos.length === 0) {
+                lista.appendChild(crearItemSinProductos());
+            } else {
+                cat.promos.forEach(promo => {
+                    lista.appendChild(crearPromo(promo));
+                });
+            }
+
+            contenedor.appendChild(seccion);
+        });
+
+    } catch (error) {
+        console.error("Error cargando promos:", error);
+    }
 
 }
 
