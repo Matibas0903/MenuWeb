@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    cargarMenu();
     cargarPromos();
+    cargarMenu();
+   
 });
 
 
@@ -71,7 +72,7 @@ async function cargarPromos() {
 
             seccion.innerHTML = `
                 <div class="titulo-container">
-                    <h2 class="Categoria">${cat.categoria}</h2>
+                    <h2 class="Categoria">PROMOS</h2>
                 </div>
                 <ul class="lista-producto"></ul>
             `;
