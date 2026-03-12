@@ -100,6 +100,7 @@ function crearLinkNav(nav, sub){
 
 function crearSeccionSubcategoria(sub){
 
+    const idSub = sub.subcategoria.replace(/\s+/g, "-").toLowerCase();
     const seccion = document.createElement("div");
 
     seccion.classList.add("listaSeccion");
@@ -107,7 +108,7 @@ function crearSeccionSubcategoria(sub){
     seccion.innerHTML = `
         <div class="titulo-container">
             <h2 class="SubCategoria">
-                <p id="${sub.subcategoria}">${sub.subcategoria}</p>
+                <p id="${idSub}">${sub.subcategoria}</p>
             </h2>
         </div>
         <ul class="lista-producto"></ul>
