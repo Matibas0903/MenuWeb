@@ -13,7 +13,7 @@ SELECT
     p.NOMBRE AS producto,
     p.DESCRIPCION,
     p.PRECIO,
-    P.IMAGEN_URL
+    p.IMAGEN_URL
 FROM categoria c
 LEFT JOIN subcategoria s ON s.ID_CATEGORIA = c.ID_CATEGORIA
 LEFT JOIN producto p ON p.ID_SUBCATEGORIA = s.ID_SUBCATEGORIA

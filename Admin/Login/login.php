@@ -80,7 +80,7 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="login.js" defer> </script>
-    <link rel="stylesheet" href="/Menu_Web/style.css">
+    <link rel="stylesheet" href="/style.css">
 
 </head>
 
