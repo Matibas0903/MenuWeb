@@ -79,7 +79,7 @@ if (!isset($_SESSION["idUsuario"])) {
                     Admin
                 </span>
 
-                <a href="../Login/logout.php" class="btn btn-outline-light btn-sm">
+                <a href="\Admin\Login\logout.php" class="btn btn-outline-light btn-sm">
                     Cerrar sesión
                 </a>
             </div>

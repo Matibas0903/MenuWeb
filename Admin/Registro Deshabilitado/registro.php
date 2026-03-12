@@ -123,7 +123,7 @@ try {
     <div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
 
         <div class="card p-4 shadow-lg login-card">
-            <img src="/Menu_Web/Resources/logo.png" class="card-img-top logo-admin">
+            <img src="/Resources/logo.png" class="card-img-top logo-admin">
             <div class="card-body ">
                 <form id="registro">
                     <div class="form-group mb-3">
