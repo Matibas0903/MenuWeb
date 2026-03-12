@@ -28,8 +28,7 @@ try {
             $errores["nombrePromo"] = "El nombre esta vacio.";
         }
         if ($existeNombre) {
-            $errores["nombrePromo"] = "Ya hay un producto con ese nombre";
-            exit;
+            $errores["nombrePromo"] = "Ya hay una promo con ese nombre";
         }
         if (strlen($descripcionPromo) > 120) {
             $errores["descripcion"] = "La descripcion es muy larga";
@@ -51,7 +50,7 @@ try {
 
 
 
-        if ($precioPromo < 0 && empty($precioPromo) && !is_numeric($precioPromo)) {
+        if ($precioPromo < 0 || empty($precioPromo) || !is_numeric($precioPromo)) {
             $errores["precioPromo"] = "Precio invalido";
         }
 
@@ -59,23 +58,22 @@ try {
 
         $rutaFinal = null; // por defecto sin imagen
 
-        if (isset($_FILES["imagenPromo"]) && $_FILES["imagenPromo"]["error"] !== UPLOAD_ERR_NO_FILE) {
+        if (isset($imagenPromo) && $imagenPromo["error"] !== UPLOAD_ERR_NO_FILE) {
 
             $tiposPermitidos = ["image/jpeg", "image/png", "image/webp", "image/avif"];
 
-            if (!in_array($_FILES["imagenPromo"]["type"], $tiposPermitidos)) {
+            if (!in_array($imagenPromo["type"], $tiposPermitidos)) {
                 $errores["imagenPromo"] = "Formato de imagen no permitido";
             }
 
-            if ($_FILES["imagenPromo"]["size"] > 5 * 1024 * 1024) {
+            if ($imagenPromo["size"] > 5 * 1024 * 1024) {
                 $errores["imagenPromo"] = "La imagen es demasiado grande";
             }
 
-            if ($_FILES["imagenPromo"]["error"] !== 0) {
+            if ($imagenPromo["error"] !== 0) {
                 $errores["imagenPromo"] = "Error al subir la imagen";
             } else {
 
-                $imagenPromo = $_FILES["imagenPromo"];
                 $tmp = $imagenPromo["tmp_name"];
 
                 // nombre unico
