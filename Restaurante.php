@@ -24,5 +24,6 @@
 
     <nav id="navSubcategorias" class="nav-categorias bg-black border-bottom border-secondary"></nav>
 
+    <div class="container mt-5" id="promoContainer"></div>
     <div class="container mt-5" id="menuContainer"></div>
 </body>

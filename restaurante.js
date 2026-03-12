@@ -44,7 +44,7 @@ async function cargarMenu() {
 
 async function cargarPromos() {
 
-    const contenedor = document.getElementById("menuContainer");
+    const contenedor = document.getElementById("promoContainer");
 
     try {
         const data = await obtenerPromos();
