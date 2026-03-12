@@ -110,7 +110,7 @@ async function obtenerProductos(){
 
 
 async function obtenerPromos() {
-    const response = await fetch("obtenerPromos.php");
+    const response = await fetch("obtenerPromosBar.php");
     return await response.json();
 }
 
