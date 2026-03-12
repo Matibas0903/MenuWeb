@@ -125,7 +125,7 @@ try {
 } catch (PDOException $e) {
     echo json_encode([
         "status" => "error",
-        "errors" => "error al agregar el producto"
+        "errors" => $e->getMessage()
     ]);
     exit;
 }
