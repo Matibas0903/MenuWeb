@@ -260,10 +260,11 @@ async function cargarPromos() {
         const data = await obtenerPromos();
 
         if (data.length === 0) {
-            // Opcional: si no hay promos
+              contenedor.classList.add("d-none");
             return;
         }
 
+        contenedor.classList.remove("d-none");
         data.forEach(cat => {
             // Crear sección de categoría de promo
             const seccion = document.createElement("div");
