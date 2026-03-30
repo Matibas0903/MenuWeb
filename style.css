@@ -173,6 +173,7 @@ body::before {
     border-radius: 20px;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(5px);
+    scroll-margin-top: 100px;
 }
 
 .SubCategoria,
