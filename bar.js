@@ -285,51 +285,116 @@ function mostrarErrorMenu(contenedor){
 // CARRUSEL TRAGOS DE AUTOR (OPCIONAL)
 // ==========================================================
 
-function crearCarruselTragosAutor(subcategoria){
-
-    const contenedor = document.getElementById("menuContainer");
-
+function esMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|SamsungBrowser/i.test(navigator.userAgent);
+}
+ 
+function crearCarruselTragosAutor(subcategoria) {
+ 
+    const contenedor = document.getElementById("TragosAutorContainer");
+    const prods = subcategoria.productos;
+ 
     const seccion = document.createElement("div");
-
     seccion.classList.add("carrusel-tragos");
-
+ 
+    if (esMobile()) {
+        crearStackMobile(seccion, prods, subcategoria.subcategoria);
+    } else {
+        crearGridDesktop(seccion, prods, subcategoria.subcategoria);
+    }
+ 
+    contenedor.appendChild(seccion);
+}
+ 
+function crearStackMobile(seccion, prods, titulo) {
+ 
+    let actual = 0;
+ 
     seccion.innerHTML = `
         <div class="titulo-container">
-            <h2 class="SubCategoria">
-                ${subcategoria.subcategoria}
-            </h2>
+            <h2 class="SubCategoria">${titulo}</h2>
         </div>
-
-        <div class="carrusel-scroll"></div>
+        <div class="carrusel-stack"></div>
+        <div class="carrusel-controles">
+            <button class="btn-carrusel btn-prev">&#8592;</button>
+            <span class="carrusel-indicador"></span>
+            <button class="btn-carrusel btn-next">&#8594;</button>
+        </div>
     `;
-
-    const carrusel = seccion.querySelector(".carrusel-scroll");
-
-    subcategoria.productos.forEach(prod => {
-
-        carrusel.innerHTML += `
-        <div class="trago-card">
-
-            ${
-                prod.imagen
-                ? `<img src="${prod.imagen}" alt="${prod.nombre}">`
-                : ""
-            }
-
+ 
+    const stack = seccion.querySelector(".carrusel-stack");
+ 
+    prods.forEach((prod, i) => {
+        const card = document.createElement("div");
+        card.classList.add("trago-card");
+        card.innerHTML = `
+            ${prod.imagen ? `<img src="${prod.imagen}" alt="${prod.nombre}">` : ""}
             <h5>${prod.nombre}</h5>
-
-            <p class="ingredientes">
-                ${prod.descripcion}
-            </p>
-
-            <span class="precio">
-                $${prod.precio}
-            </span>
-
-        </div>
+            <p class="ingredientes">${prod.descripcion}</p>
+            <span class="precio">$${prod.precio}</span>
         `;
+        card.style.transform = i === 0 ? "translateY(0%)" : "translateY(105%)";
+        card.style.zIndex = prods.length - i;
+        stack.appendChild(card);
     });
-
-    contenedor.appendChild(seccion);
-
+ 
+    const cards = stack.querySelectorAll(".trago-card");
+    const indicador = seccion.querySelector(".carrusel-indicador");
+ 
+    function actualizar() {
+        cards.forEach((card, i) => {
+            if (i < actual) {
+                card.style.transform = "translateY(-105%)";
+            } else if (i === actual) {
+                card.style.transform = "translateY(0%)";
+            } else {
+                card.style.transform = "translateY(105%)";
+            }
+        });
+        indicador.textContent = `${actual + 1} / ${prods.length}`;
+        seccion.querySelector(".btn-prev").style.opacity = actual === 0 ? "0.3" : "1";
+        seccion.querySelector(".btn-next").style.opacity = actual === prods.length - 1 ? "0.3" : "1";
+    }
+ 
+    seccion.querySelector(".btn-next").addEventListener("click", () => {
+        if (actual < prods.length - 1) { actual++; actualizar(); }
+    });
+ 
+    seccion.querySelector(".btn-prev").addEventListener("click", () => {
+        if (actual > 0) { actual--; actualizar(); }
+    });
+ 
+    let startX = 0;
+    stack.addEventListener("touchstart", e => { startX = e.touches[0].clientX; }, { passive: true });
+    stack.addEventListener("touchend", e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (diff > 40 && actual < prods.length - 1) { actual++; actualizar(); }
+        if (diff < -40 && actual > 0) { actual--; actualizar(); }
+    });
+ 
+    actualizar();
+}
+ 
+function crearGridDesktop(seccion, prods, titulo) {
+ 
+    seccion.innerHTML = `
+        <div class="titulo-container">
+            <h2 class="SubCategoria">${titulo}</h2>
+        </div>
+        <div class="carrusel-grid"></div>
+    `;
+ 
+    const grid = seccion.querySelector(".carrusel-grid");
+ 
+    prods.forEach(prod => {
+        const card = document.createElement("div");
+        card.classList.add("trago-card");
+        card.innerHTML = `
+            ${prod.imagen ? `<img src="${prod.imagen}" alt="${prod.nombre}">` : ""}
+            <h5>${prod.nombre}</h5>
+            <p class="ingredientes">${prod.descripcion}</p>
+            <span class="precio">$${prod.precio}</span>
+        `;
+        grid.appendChild(card);
+    });
 }

@@ -148,6 +148,25 @@ body::before {
     text-decoration: none;
 }
 
+.btn-carrusel {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #F3699D;
+    background: rgba(0, 0, 0, 0.6);
+    color: #62E1FE;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+ 
+.btn-carrusel:hover {
+    background: rgba(243, 105, 157, 0.2);
+    transform: scale(1.1);
+}
 
 
 /* ============================= */
@@ -221,44 +240,137 @@ body::before {
 /* ============================= */
 /* CARRUSEL */
 /* ============================= */
-
-
-.carrusel-scroll {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
+/* ============================= */
+/* CARRUSEL — STACK (mobile) / GRID (desktop) */
+/* ============================= */
+ 
+.carrusel-tragos {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 40px;
     padding: 20px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
 }
-
+ 
+/* ---------- estilos comunes a trago-card ---------- */
+ 
 .trago-card {
-    min-width: 220px;
     background: black;
     border-radius: 15px;
     padding: 15px;
     text-align: center;
     box-shadow: 0 0 15px purple;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
 }
-
+ 
 .trago-card h5 {
     color: white;
+    font-size: 18px;
+    margin: 10px 0 6px;
 }
-
+ 
 .trago-card img {
     width: 100%;
-    height: 220px;
+    max-height: 220px;
     object-fit: contain;
     border-radius: 10px;
-    margin-bottom: 10px;
+}
+/* ---------- MOBILE: stack / page-flip ---------- */
+.carrusel-stack {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 15px;
 }
 
+.trago-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: black;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 15px purple;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
+}
+
+
+/* ---------- MOBILE: stack / page-flip ---------- */
+ 
+.carrusel-stack {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 15px;
+}
+ 
+.carrusel-stack .trago-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+ 
+.carrusel-controles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+}
+ 
+.carrusel-indicador {
+    color: white;
+    font-size: 14px;
+    min-width: 40px;
+    text-align: center;
+}
+ 
+/* ---------- DESKTOP: grid de 3 columnas ---------- */
+ 
+.carrusel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+ 
+.carrusel-grid .trago-card {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+ 
+.carrusel-grid .trago-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px purple, 0 0 10px #F3699D;
+}
+ 
+
 .ingredientes {
-    font-size: 12px;
+    font-size: clamp(10px, 2.5vw, 12px);
     color: #ccc;
 }
 
 .precio {
     color: #ccc;
-    font-size: 14px;
+    font-size: clamp(12px, 3vw, 14px);
 }
 
 

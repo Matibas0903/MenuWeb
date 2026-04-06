@@ -1,19 +1,16 @@
 <?php
 
-$host = getenv("MYSQLHOST");
-$port = getenv("MYSQLPORT");
-$db   = getenv("MYSQL_DATABASE");
-$user = getenv("MYSQLUSER");
-$pass = getenv("MYSQLPASSWORD");
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "bar";
+
 
 try {
-    $conn = new PDO(
-        "mysql:host=$host;port=$port;dbname=$db;charset=utf8",
-        $user,
-        $pass
-    );
-
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    //echo "Connected successfully";
 } catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
+    //echo "Connection failed: " . $e->getMessage();
 }
