@@ -284,32 +284,32 @@ function mostrarErrorMenu(contenedor){
 // ==========================================================
 // CARRUSEL TRAGOS DE AUTOR (OPCIONAL)
 // ==========================================================
-
 function esMobile() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|SamsungBrowser/i.test(navigator.userAgent);
+    return window.innerWidth < 768;
 }
- 
+
+// Carrusel stack general
 function crearCarruselTragosAutor(subcategoria) {
- 
     const contenedor = document.getElementById("TragosAutorContainer");
-    const prods = subcategoria.productos;
- 
+    if (!contenedor) return;
+
+    const prods = subcategoria.productos || [];
     const seccion = document.createElement("div");
     seccion.classList.add("carrusel-tragos");
- 
-    if (esMobile()) {
-        crearStackMobile(seccion, prods, subcategoria.subcategoria);
-    } else {
-        crearGridDesktop(seccion, prods, subcategoria.subcategoria);
-    }
- 
+
+    const porPagina = esMobile() ? 1 : 3; // 1 card en mobile, hasta 3 en desktop
+    crearCarruselStack(seccion, prods, subcategoria.subcategoria, porPagina);
+
     contenedor.appendChild(seccion);
 }
- 
-function crearStackMobile(seccion, prods, titulo) {
- 
+
+// Función genérica para crear el stack
+function crearCarruselStack(seccion, prods, titulo, POR_PAGINA) {
     let actual = 0;
- 
+    const totalPaginas = Math.ceil(prods.length / POR_PAGINA);
+        seccion.style.setProperty('--cards-por-slide', POR_PAGINA);
+
+
     seccion.innerHTML = `
         <div class="titulo-container">
             <h2 class="SubCategoria">${titulo}</h2>
@@ -321,80 +321,63 @@ function crearStackMobile(seccion, prods, titulo) {
             <button class="btn-carrusel btn-next">&#8594;</button>
         </div>
     `;
- 
+
     const stack = seccion.querySelector(".carrusel-stack");
- 
-    prods.forEach((prod, i) => {
-        const card = document.createElement("div");
-        card.classList.add("trago-card");
-        card.innerHTML = `
-            ${prod.imagen ? `<img src="${prod.imagen}" alt="${prod.nombre}">` : ""}
-            <h5>${prod.nombre}</h5>
-            <p class="ingredientes">${prod.descripcion}</p>
-            <span class="precio">$${prod.precio}</span>
-        `;
-        card.style.transform = i === 0 ? "translateY(0%)" : "translateY(105%)";
-        card.style.zIndex = prods.length - i;
-        stack.appendChild(card);
-    });
- 
-    const cards = stack.querySelectorAll(".trago-card");
-    const indicador = seccion.querySelector(".carrusel-indicador");
- 
-    function actualizar() {
-        cards.forEach((card, i) => {
-            if (i < actual) {
-                card.style.transform = "translateY(-105%)";
-            } else if (i === actual) {
-                card.style.transform = "translateY(0%)";
-            } else {
-                card.style.transform = "translateY(105%)";
-            }
+
+    // Crear slides
+    for (let i = 0; i < totalPaginas; i++) {
+        const slide = document.createElement("div");
+        slide.classList.add("carrusel-slide");
+        slide.style.transform = i === 0 ? "translateY(0%)" : "translateY(105%)";
+        slide.style.zIndex = totalPaginas - i;
+
+        const slice = prods.slice(i * POR_PAGINA, i * POR_PAGINA + POR_PAGINA);
+        slice.forEach(prod => {
+            const card = document.createElement("div");
+            card.classList.add("trago-card");
+            card.innerHTML = `
+                <div class="trago-img">
+                    ${prod.imagen ? `<img src="${prod.imagen}" alt="${prod.nombre}">` : ""}
+                </div>
+                <h5>${prod.nombre}</h5>
+                <p class="ingredientes">${prod.descripcion}</p>
+                <span class="precio">$${prod.precio}</span>
+            `;
+            slide.appendChild(card);
         });
-        indicador.textContent = `${actual + 1} / ${prods.length}`;
-        seccion.querySelector(".btn-prev").style.opacity = actual === 0 ? "0.3" : "1";
-        seccion.querySelector(".btn-next").style.opacity = actual === prods.length - 1 ? "0.3" : "1";
+
+        stack.appendChild(slide);
     }
- 
+
+    const slides = stack.querySelectorAll(".carrusel-slide");
+    const indicador = seccion.querySelector(".carrusel-indicador");
+
+    function actualizar() {
+        slides.forEach((slide, i) => {
+            if (i < actual) slide.style.transform = "translateX(-105%)";
+            else if (i === actual) slide.style.transform = "translateX(0%)";
+            else slide.style.transform = "translateX(105%)";
+        });
+        indicador.textContent = `${actual + 1} / ${totalPaginas}`;
+        seccion.querySelector(".btn-prev").style.opacity = actual === 0 ? "0.3" : "1";
+        seccion.querySelector(".btn-next").style.opacity = actual === totalPaginas - 1 ? "0.3" : "1";
+    }
+
     seccion.querySelector(".btn-next").addEventListener("click", () => {
-        if (actual < prods.length - 1) { actual++; actualizar(); }
+        if (actual < totalPaginas - 1) { actual++; actualizar(); }
     });
- 
     seccion.querySelector(".btn-prev").addEventListener("click", () => {
         if (actual > 0) { actual--; actualizar(); }
     });
- 
+
+    // Swipe para mobile
     let startX = 0;
     stack.addEventListener("touchstart", e => { startX = e.touches[0].clientX; }, { passive: true });
     stack.addEventListener("touchend", e => {
         const diff = startX - e.changedTouches[0].clientX;
-        if (diff > 40 && actual < prods.length - 1) { actual++; actualizar(); }
+        if (diff > 40 && actual < totalPaginas - 1) { actual++; actualizar(); }
         if (diff < -40 && actual > 0) { actual--; actualizar(); }
     });
- 
+
     actualizar();
-}
- 
-function crearGridDesktop(seccion, prods, titulo) {
- 
-    seccion.innerHTML = `
-        <div class="titulo-container">
-            <h2 class="SubCategoria">${titulo}</h2>
-        </div>
-        <div class="carrusel-grid"></div>
-    `;
- 
-    const grid = seccion.querySelector(".carrusel-grid");
- 
-    prods.forEach(prod => {
-        const card = document.createElement("div");
-        card.classList.add("trago-card");
-        card.innerHTML = `
-            ${prod.imagen ? `<img src="${prod.imagen}" alt="${prod.nombre}">` : ""}
-            <h5>${prod.nombre}</h5>
-            <p class="ingredientes">${prod.descripcion}</p>
-            <span class="precio">$${prod.precio}</span>
-        `;
-        grid.appendChild(card);
-    });
 }

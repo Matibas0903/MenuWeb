@@ -240,10 +240,7 @@ body::before {
 /* ============================= */
 /* CARRUSEL */
 /* ============================= */
-/* ============================= */
-/* CARRUSEL — STACK (mobile) / GRID (desktop) */
-/* ============================= */
- 
+
 .carrusel-tragos {
     width: 100%;
     max-width: 900px;
@@ -256,19 +253,7 @@ body::before {
  
 /* ---------- estilos comunes a trago-card ---------- */
  
-.trago-card {
-    background: black;
-    border-radius: 15px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 0 15px purple;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-}
- 
+
 .trago-card h5 {
     color: white;
     font-size: 18px;
@@ -281,6 +266,22 @@ body::before {
     object-fit: contain;
     border-radius: 10px;
 }
+
+.trago-img {
+    width: 100%;
+    height: 220px;  /* altura máxima de la imagen */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.sin-imagen {
+    color: black;
+    font-size: 14px;
+    text-align: center;
+}
 /* ---------- MOBILE: stack / page-flip ---------- */
 .carrusel-stack {
     position: relative;
@@ -290,11 +291,12 @@ body::before {
 }
 
 .trago-card {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    max-height: 420px;
 
     background: black;
     border-radius: 15px;
@@ -315,10 +317,12 @@ body::before {
 /* ---------- MOBILE: stack / page-flip ---------- */
  
 .carrusel-stack {
+    display: flex;
     position: relative;
     height: 420px;
     overflow: hidden;
     border-radius: 15px;
+    width:100%;
 }
  
 .carrusel-stack .trago-card {
@@ -328,6 +332,15 @@ body::before {
     width: 100%;
     height: 100%;
     transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.carrusel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    display: flex;    
+    gap: 16px;
+    transition: transform 0.4s ease;
 }
  
 .carrusel-controles {
@@ -343,6 +356,13 @@ body::before {
     font-size: 14px;
     min-width: 40px;
     text-align: center;
+}
+
+.carrusel-slide .trago-card {
+    position: relative;  
+    width: calc(100% / var(--cards-por-slide)); 
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
  
 /* ---------- DESKTOP: grid de 3 columnas ---------- */
@@ -372,6 +392,7 @@ body::before {
     color: #ccc;
     font-size: clamp(12px, 3vw, 14px);
 }
+
 
 
 
