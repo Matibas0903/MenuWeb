@@ -1,5 +1,5 @@
 <?php
-require "config\conexion.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/config/conexion.php";
 
 header("content-type: application/json");
 

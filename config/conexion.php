@@ -1,16 +1,18 @@
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bar";
-
-
+$host = "sql208.infinityfree.com";
+$port = "3306"; 
+$db   = "if0_41587812_bar"; 
+$user = "if0_41587812"; 
+$pass = "Guemes462";
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    // set the PDO error mode to exception
+    $conn = new PDO(
+        "mysql:host=$host;port=$port;dbname=$db;charset=utf8",
+        $user,
+        $pass
+    );
+
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //echo "Connected successfully";
 } catch (PDOException $e) {
-    //echo "Connection failed: " . $e->getMessage();
+    die("Error de conexión: " . $e->getMessage());
 }
