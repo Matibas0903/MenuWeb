@@ -1,0 +1,172 @@
+/* ============================================================
+ * admin.css — Admin/Login/login.php y Admin/Home/home.php
+ * (también lo usa "Admin/Registro Deshabilitado/registro.php")
+ *
+ * Cards del login y del panel, modales Bootstrap oscuros,
+ * mega/mini menú de edición y utilidades de formularios.
+ * ============================================================ */
+
+/* ============================= */
+/* CARDS */
+/* ============================= */
+
+.login-card,
+.home-card {
+    border-radius: var(--radius-card);
+    background: var(--bg-overlay);
+    color: white;
+}
+
+.login-card {
+    width: 400px;
+}
+
+.home-card {
+    max-width: 400px;
+    margin: auto;
+}
+
+
+/* ============================= */
+/* LOGOS */
+/* ============================= */
+
+.logo-admin {
+    max-width: 170px;
+    margin: 5px auto;
+    display: block;
+    animation: neonPulse var(--neon-dur) ease-in-out infinite alternate;
+}
+
+
+/* ============================= */
+/* BOTONES DE FORMULARIO */
+/* ============================= */
+
+.btn-form {
+    padding: 18px 50px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--neon-celeste);
+    border: 2px solid var(--neon-rosa);
+    border-radius: var(--radius-btn);
+    animation: neonPulse var(--neon-dur) ease-in-out infinite alternate;
+}
+
+.mini-btn-form {
+    padding: 10px 25px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--neon-celeste);
+    border: 2px solid var(--neon-rosa);
+    border-radius: var(--radius-btn);
+    animation: neonPulse var(--neon-dur) ease-in-out infinite alternate;
+}
+
+
+/* ============================= */
+/* MODALES */
+/* ============================= */
+
+.modal-content {
+    background-color: var(--bg-modal);
+    color: #fff;
+    border: 1px solid #333;
+}
+
+
+/* ============================= */
+/* MEGA MENU (dropdown Productos) */
+/* ============================= */
+
+.mega-menu {
+    width: 420px;
+    padding: 20px;
+    background: var(--bg-menu);
+    border: 1px solid var(--bg-nav);
+    border-radius: 10px;
+    display: none;
+}
+
+.mega-menu.show {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.mega-col {
+    min-width: 180px;
+}
+
+.mega-col h6 {
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    border-bottom: 1px solid var(--bg-nav);
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+}
+
+.mega-col a {
+    display: block;
+    color: #cfcfcf;
+    font-size: 14px;
+    padding: 4px 0;
+    text-decoration: none;
+    transition: 0.15s;
+}
+
+.mega-col a:hover {
+    color: white;
+    padding-left: 4px;
+}
+
+
+/* ============================= */
+/* MINI MENU (dropdown Promos) */
+/* ============================= */
+
+.mini-menu {
+    width: 150px;
+    padding: 20px;
+    background: var(--bg-menu);
+    border: 1px solid var(--bg-nav);
+    border-radius: 10px;
+    display: none;
+}
+
+.mini-menu.show {
+    display: flex;
+}
+
+.mini-col {
+    min-width: 90px;
+}
+
+.mini-col h6 {
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+}
+
+.mega-empty {
+    color: #777;
+    font-style: italic;
+    font-size: 13px;
+}
+
+
+/* ============================= */
+/* UTILIDADES */
+/* ============================= */
+
+.preview-img {
+    max-width: 200px;
+    border-radius: 10px;
+}
+
+textarea.form-control {
+    resize: none;
+}

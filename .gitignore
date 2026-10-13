@@ -1,2 +1,4 @@
 # Credenciales de la base de datos: nunca se commitean (ver CONTEXT.md, problema 1)
 /config/env.local.php
+
+/bar_backup.sql

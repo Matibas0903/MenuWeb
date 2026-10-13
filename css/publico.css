@@ -1,0 +1,175 @@
+/* ============================================================
+ * publico.css — index.php, Restaurante.php y Bar.php
+ *
+ * Botones de portada, logo, secciones de productos, nav de
+ * subcategorías y textos compartidos (precio / descripción).
+ * El carrusel del Bar vive en carrusel.css; el panel, en admin.css.
+ * ============================================================ */
+
+/* ============================= */
+/* BOTONES */
+/* ============================= */
+
+.home-btn {
+    padding: 18px 50px;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--neon-celeste);
+    border: 3px solid var(--neon-rosa);
+    border-radius: var(--radius-btn);
+    animation: neonPulse var(--neon-dur) ease-in-out infinite alternate;
+}
+
+.btn-volver {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+    color: var(--neon-celeste);
+
+    border: 2px solid var(--neon-rosa);
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.7);
+
+    z-index: 1000;
+
+    animation: neonPulse var(--neon-dur) ease-in-out infinite alternate;
+    text-decoration: none;
+}
+
+
+/* ============================= */
+/* LOGOS */
+/* ============================= */
+
+.logo {
+    width: 320px;
+    height: auto;
+    justify-content: center;
+    animation: neonPulse var(--neon-dur) ease-in-out infinite alternate;
+}
+
+
+/* ============================= */
+/* LISTAS DE PRODUCTOS */
+/* ============================= */
+
+.listaSeccion {
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: var(--radius-card);
+    background: var(--bg-seccion);
+    backdrop-filter: blur(5px);
+    scroll-margin-top: 100px;
+}
+
+.SubCategoria,
+.Categoria {
+    color: var(--neon-celeste);
+    text-align: center;
+    font-size: 28px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    animation: neonPulse 0.8s ease-in-out infinite alternate;
+}
+
+.lista-producto {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-producto li {
+    margin-bottom: 15px;
+}
+
+.item-info {
+    background: var(--bg-item);
+    border: 1px solid var(--neon-rosa);
+    border-radius: var(--radius-item);
+    padding: 15px;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.item-info:hover {
+    transform: scale(1.02);
+    box-shadow:
+        0 0 10px var(--neon-rosa),
+        0 0 20px var(--neon-celeste);
+}
+
+.descripcion {
+    color: lightgray;
+}
+
+.precio {
+    color: #ccc;
+    font-size: clamp(12px, 3vw, 14px);
+}
+
+.ingredientes {
+    font-size: clamp(10px, 2.5vw, 12px);
+    color: #ccc;
+}
+
+
+/* ============================= */
+/* NAV CATEGORIAS */
+/* ============================= */
+
+.nav-categorias {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-nav);
+    z-index: 1000;
+    overflow-x: auto;
+    box-sizing: border-box;
+    height: 60px;
+    align-items: center;
+}
+
+.nav-categorias a {
+    flex: 0 0 auto;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    background-color: var(--bg-nav);
+    color: #eaeaea;
+    transition: all 0.2s ease;
+    line-height: 1.2;
+}
+
+.nav-categorias a:hover {
+    background-color: #444;
+    transform: translateY(-2px);
+}
+
+.nav-categorias a.active {
+    background-color: #ffc107;
+    color: #000;
+    font-weight: bold;
+}
+
+.nav-categorias::-webkit-scrollbar {
+    display: none;
+}

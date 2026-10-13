@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -11,7 +11,10 @@
     <!-- Cambio 7: lógica compartida; debe ir antes de bar.js (defer respeta el orden) -->
     <script src="menu-comun.js" defer></script>
     <script src="bar.js" defer> </script>
-    <link rel="stylesheet" href="style.css">
+    <!-- Fase 1: CSS por ámbito (CONTEXT.md); carrusel solo en Bar -->
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/publico.css">
+    <link rel="stylesheet" href="css/carrusel.css">
 
 </head>
 

@@ -18,7 +18,8 @@ if (!isset($_SESSION["idUsuario"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="../../css/theme.css">
+    <link rel="stylesheet" href="../../css/admin.css">
     <script src="home.js" defer></script>
 </head>
 
@@ -79,7 +80,7 @@ if (!isset($_SESSION["idUsuario"])) {
                     Admin
                 </span>
 
-                <a href="\Admin\Login\logout.php" class="btn btn-outline-light btn-sm">
+                <a href="..\Login\logout.php" class="btn btn-outline-light btn-sm">
                     Cerrar sesión
                 </a>
             </div>

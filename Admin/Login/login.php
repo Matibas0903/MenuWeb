@@ -70,7 +70,7 @@ try {
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -80,7 +80,9 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="login.js" defer> </script>
-    <link rel="stylesheet" href="/style.css">
+    <!-- Fase 1: CSS por ámbito (CONTEXT.md); rutas relativas al documento -->
+    <link rel="stylesheet" href="../../css/theme.css">
+    <link rel="stylesheet" href="../../css/admin.css">
 
 </head>
 

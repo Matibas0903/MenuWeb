@@ -1,0 +1,99 @@
+/* ============================================================
+ * theme.css — variables del tema + reset/base + layout general
+ *
+ * Fase 1 (CONTEXT.md): style.css (554 líneas) se dividió por ámbito.
+ * Para personalizar la estética (colores neón, radios, etc.) alcanza
+ * con editar las variables de :root de este archivo.
+ *
+ * Orden de carga en cada página:
+ *   theme.css → publico.css → (carrusel.css en Bar) / (admin.css en login y panel)
+ * ============================================================ */
+
+:root {
+    /* --- marca / neón --- */
+    --neon-rosa: #F3699D;
+    --neon-celeste: #62E1FE;
+
+    /* --- radios --- */
+    --radius-card: 20px;
+    --radius-btn: 40px;
+    --radius-item: 15px;
+
+    /* --- fondos --- */
+    --bg-overlay: rgba(0, 0, 0, 0.5);      /* oscurecedor fijo de body::before */
+    --bg-seccion: rgba(0, 0, 0, 0.6);      /* paneles de secciones / carrusel */
+    --bg-item: rgba(20, 20, 20, 0.8);      /* card de producto */
+    --bg-menu: #0f0f0f;                    /* mega/mini menú del panel */
+    --bg-nav: #2a2a2a;                     /* nav de categorías */
+    --bg-modal: #1e1e1e;                   /* modales Bootstrap oscuros */
+
+    /* --- animación --- */
+    --neon-dur: 0.5s;
+}
+
+
+/* ============================= */
+/* RESET / BASE */
+/* ============================= */
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    scroll-behavior: smooth;
+}
+
+body {
+    /* Ojo: las URLs en CSS son relativas al archivo, por eso ../Resources */
+    background-image: url("../Resources/background.png");
+    background-size: cover;
+    background-repeat: repeat-y;
+    background-position: center;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: var(--bg-overlay);
+    z-index: 0;
+}
+
+
+/* ============================= */
+/* LAYOUT */
+/* ============================= */
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+#menuContainer {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ============================= */
+/* ANIMACIONES */
+/* ============================= */
+
+@keyframes neonPulse {
+    from {
+        filter:
+            drop-shadow(0 0 3px var(--neon-rosa)) drop-shadow(0 0 8px var(--neon-rosa)) drop-shadow(0 0 3px var(--neon-celeste));
+    }
+
+    to {
+        filter:
+            drop-shadow(0 0 5px var(--neon-rosa)) drop-shadow(0 0 8px var(--neon-rosa)) drop-shadow(0 0 5px var(--neon-celeste));
+    }
+}
