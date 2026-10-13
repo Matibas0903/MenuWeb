@@ -21,7 +21,7 @@ define("ROOT_PATH", __DIR__);
         </div>
 
         <div class="">
-            <img class="logo" src="Resources\logo.png">
+            <img class="logo" src="Resources/logo.png">
         </div>
 
 

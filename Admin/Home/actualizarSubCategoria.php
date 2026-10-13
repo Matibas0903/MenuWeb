@@ -1,6 +1,8 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . "/config/conexion.php";
+// Protege el endpoint: exige sesión de admin (ver config/auth_guard.php)
+require_once __DIR__ . "/../../config/auth_guard.php";
+require_once __DIR__ . "/../../config/conexion.php";
 
 header("Content-Type: application/json");
 

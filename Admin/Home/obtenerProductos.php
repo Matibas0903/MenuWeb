@@ -1,5 +1,7 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . "/config/conexion.php";
+// Protege el endpoint: exige sesión de admin (ver config/auth_guard.php)
+require_once __DIR__ . "/../../config/auth_guard.php";
+require_once __DIR__ . "/../../config/conexion.php";
 
 header("Content-Type: Application/json");
 
@@ -53,7 +55,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 "NOMBRE" => $row["producto"],
                 "DESCRIPCION" => $row["DESCRIPCION"],
                 "PRECIO" => $row["PRECIO"],
-                "IMAGEN_URL" => $row["IMAGEN_URL"],
+                "IMAGEN_URL" => urlImagen($row["IMAGEN_URL"]),
             ];
         }
     }

@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . "/config/conexion.php";
+require_once __DIR__ . "/config/conexion.php";
 
 header("content-type: application/json");
 
@@ -33,7 +33,7 @@ try {
             $menu[$sub] = ["subcategoria" => $sub, "productos" => []];
         }
         if ($r["NOMBRE"]) {
-            $menu[$sub]["productos"][] = ["nombre" => $r["NOMBRE"], "precio" => $r["PRECIO"], "imagen" => $r["IMAGEN_URL"], "descripcion" => $r["DESCRIPCION"]];
+            $menu[$sub]["productos"][] = ["nombre" => $r["NOMBRE"], "precio" => $r["PRECIO"], "imagen" => urlImagen($r["IMAGEN_URL"]), "descripcion" => $r["DESCRIPCION"]];
         }
     }
     echo json_encode(array_values($menu));

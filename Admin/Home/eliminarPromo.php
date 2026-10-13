@@ -1,6 +1,8 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . "/config/conexion.php";
+// Protege el endpoint: exige sesión de admin (ver config/auth_guard.php)
+require_once __DIR__ . "/../../config/auth_guard.php";
+require_once __DIR__ . "/../../config/conexion.php";
 
 
 header("Content-Type: application/json");
@@ -36,9 +38,12 @@ try {
     }
 
 
+    // IMAGEN_URL_PROMO en BD guarda la ruta pública completa (ej: /Resources/img_promos/archivo.png).
+    // PROJECT_ROOT apunta a la carpeta real del proyecto (no al docroot), así que
+    // el archivo se resuelve aunque la app esté servida desde un subdirectorio.
     if (!empty($promo["IMAGEN_URL_PROMO"])) {
 
-        $rutaImagen = "../uploads/" . $promo["IMAGEN_URL_PROMO"];
+        $rutaImagen = PROJECT_ROOT . $promo["IMAGEN_URL_PROMO"];
 
         if (file_exists($rutaImagen)) {
             unlink($rutaImagen);

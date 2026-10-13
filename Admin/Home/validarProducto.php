@@ -1,7 +1,8 @@
 <?php
 
-
-require_once $_SERVER['DOCUMENT_ROOT'] . "/config/conexion.php";
+// Protege el endpoint: exige sesión de admin (ver config/auth_guard.php)
+require_once __DIR__ . "/../../config/auth_guard.php";
+require_once __DIR__ . "/../../config/conexion.php";
 
 header("Content-Type: Application/json");
 
@@ -82,7 +83,7 @@ try {
                 $nombreArchivo = time() . "_" . basename($imagen["name"]);
 
                 // carpeta destino
-                $carpetaDestino = $_SERVER['DOCUMENT_ROOT'] . "/Resources/img_productos/";
+                $carpetaDestino = PROJECT_ROOT . "/Resources/img_productos/";
                 $rutaPublica = "/Resources/img_productos/" . $nombreArchivo;
                 $rutaFinal = $carpetaDestino . $nombreArchivo;
             }

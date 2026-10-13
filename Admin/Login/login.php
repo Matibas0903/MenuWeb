@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once $_SERVER['DOCUMENT_ROOT'] . "/config/conexion.php";
+require_once __DIR__ . "/../../config/conexion.php";
 
 $nombre  = $contraseña = "";
 
@@ -88,7 +88,8 @@ try {
     <div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
 
         <div class="card p-4 shadow-lg login-card">
-            <img src="/Resources/logo.png" class="card-img-top logo-admin">
+            <!-- BASE_URL (config/conexion.php) evita el 404 cuando la app corre en un subdirectorio -->
+            <img src="<?= BASE_URL ?>/Resources/logo.png" class="card-img-top logo-admin">
             <div class="card-body ">
                 <form id="login">
                     <div class="form-group mb-3">

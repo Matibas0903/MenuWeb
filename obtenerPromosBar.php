@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . "/config/conexion.php";
+require_once __DIR__ . "/config/conexion.php";
 header("content-type: application/json");
 
 $idCategoria = 2;
@@ -34,7 +34,7 @@ try {
             $menu[$cat]["promos"][] = [
                 "nombre" => $r["NOMBRE_PROMO"],
                 "precio" => $r["PRECIO"],
-                "imagen" => $r["IMAGEN_URL_PROMO"],
+                "imagen" => urlImagen($r["IMAGEN_URL_PROMO"]),
                 "descripcion" => $r["DESCRIPCION"]
             ];
         }

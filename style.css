@@ -283,12 +283,7 @@ body::before {
     text-align: center;
 }
 /* ---------- MOBILE: stack / page-flip ---------- */
-.carrusel-stack {
-    position: relative;
-    height: 420px;
-    overflow: hidden;
-    border-radius: 15px;
-}
+
 
 .trago-card {
     position: relative;

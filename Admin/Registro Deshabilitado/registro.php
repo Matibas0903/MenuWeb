@@ -123,7 +123,8 @@ try {
     <div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
 
         <div class="card p-4 shadow-lg login-card">
-            <img src="/Resources/logo.png" class="card-img-top logo-admin">
+            <!-- Ruta relativa al documento: funciona en la raíz y en subdirectorio -->
+            <img src="../../Resources/logo.png" class="card-img-top logo-admin">
             <div class="card-body ">
                 <form id="registro">
                     <div class="form-group mb-3">
